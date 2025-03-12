@@ -10,11 +10,36 @@
       "request": "launch"
     },
     {
+      "name": "Gradle Build Continuously",
+      "cwd": "${workspaceFolder}/back",
+      "type": "node-terminal",
+      "command": "./gradlew build -t",
+      "request": "launch"
+    },
+    {
       "name": "Astro Dev Server",
       "cwd": "${workspaceFolder}/front",
       "type": "node-terminal",
       "command": "./node_modules/.bin/astro dev",
       "request": "launch"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "SpringBoot & Astro",
+      "configurations": ["SpringBoot Application", "Astro Dev Server"]
+    },
+    {
+      "name": "SpringBoot & Gradle",
+      "configurations": ["SpringBoot Application", "Gradle Build Continuously"]
+    },
+    {
+      "name": "All",
+      "configurations": [
+        "SpringBoot Application",
+        "Astro Dev Server",
+        "Gradle Build Continuously"
+      ]
     }
   ]
 }
