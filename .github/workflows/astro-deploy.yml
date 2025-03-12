@@ -43,7 +43,7 @@ jobs:
         working-directory: ./back
         run: |
           chmod +x ./gradlew
-          ./gradlew bootRun
+          ./gradlew bootRun &
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

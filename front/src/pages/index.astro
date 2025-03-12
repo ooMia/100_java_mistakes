@@ -6,12 +6,27 @@ import { Code } from "astro:components";
 const path = "api/hello";
 let data = { message: "No data available" };
 let message = "Error Loading Data";
-try {
-  const response = await fetch(`http://localhost:8080/${path}`);
-  if (!response.ok) {
-    throw new Error(`HTTP Status: ${response.status}`);
+const maxRetries = 3;
+const delayMs = 5000;
+
+const fetchWithRetry = async (url: string, retriesLeft: number) => {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP Status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    if (retriesLeft <= 0) throw error;
+
+    console.log(`Retrying... (${maxRetries - retriesLeft + 1}/${maxRetries})`);
+    await new Promise((resolve) => setTimeout(resolve, delayMs));
+    return fetchWithRetry(url, retriesLeft - 1);
   }
-  data = await response.json();
+};
+
+try {
+  data = await fetchWithRetry(`http://localhost:8080/${path}`, maxRetries);
   message = data.message || "Data Loaded Successfully";
 } catch (error) {
   if (error instanceof Error) {
