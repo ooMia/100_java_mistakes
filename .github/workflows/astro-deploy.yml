@@ -42,7 +42,7 @@ jobs:
       - name: Build Spring Boot application
         working-directory: ./back
         run: |
-          chmod +x /gradlew
+          chmod +x ./gradlew
           ./gradlew bootRun &
 
       - name: Setup Node.js

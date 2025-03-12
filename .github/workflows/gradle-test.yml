@@ -32,7 +32,7 @@ jobs:
       - name: Build Spring Boot application
         working-directory: ./back
         run: |
-          chmod +x /gradlew
+          chmod +x ./gradlew
           ./gradlew clean test --info
 
       - name: Publish Test Results
