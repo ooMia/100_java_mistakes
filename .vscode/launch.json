@@ -10,10 +10,10 @@
       "request": "launch"
     },
     {
-      "name": "Gradle Build Continuously",
+      "name": "Gradle Test Watch",
       "cwd": "${workspaceFolder}/back",
       "type": "node-terminal",
-      "command": "./gradlew build -t",
+      "command": "./gradlew test -t --watch-fs --daemon --build-cache --parallel",
       "request": "launch"
     },
     {
@@ -31,14 +31,14 @@
     },
     {
       "name": "SpringBoot & Gradle",
-      "configurations": ["SpringBoot Application", "Gradle Build Continuously"]
+      "configurations": ["SpringBoot Application", "Gradle Test Watch"]
     },
     {
       "name": "All",
       "configurations": [
         "SpringBoot Application",
         "Astro Dev Server",
-        "Gradle Build Continuously"
+        "Gradle Test Watch"
       ]
     }
   ]
