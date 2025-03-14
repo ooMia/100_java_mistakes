@@ -2,5 +2,13 @@
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.compile.nullAnalysis.mode": "automatic",
   "java.dependency.syncWithFolderExplorer": true,
-  "java.project.explorer.showNonJavaResources": true
+  "java.project.explorer.showNonJavaResources": true,
+  "[java]": {
+    "editor.defaultFormatter": "josevseb.google-java-format-for-vs-code"
+  },
+  "java.completion.favoriteStaticMembers": [
+    "org.hamcrest.Matchers.*",
+    "org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*",
+    "org.springframework.test.web.servlet.result.MockMvcResultMatchers.*"
+  ]
 }
