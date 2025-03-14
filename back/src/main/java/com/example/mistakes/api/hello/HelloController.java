@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class HelloController {
 
-    @GetMapping("/hello")
-    public ResponseEntity<HelloDTO> hello() {
-        final var dto = new HelloDTO("Hello, World!");
-        return ResponseEntity
-                .ok()
-                .body(dto);
-    }
+  @GetMapping("/hello")
+  public ResponseEntity<HelloDTO> hello() {
+    final var dto = new HelloDTO("Hello, World!");
+    return ResponseEntity.ok().body(dto);
+  }
 }

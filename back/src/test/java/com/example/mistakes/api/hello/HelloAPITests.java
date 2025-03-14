@@ -16,14 +16,14 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 public class HelloAPITests {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @Test
-    public void testHelloEndpoint() throws Exception {
-        mockMvc.perform(get("/api/hello"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$.message", is("Hello, World!")));
-    }
+  @Test
+  public void testHelloEndpoint() throws Exception {
+    mockMvc
+        .perform(get("/api/hello"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType("application/json"))
+        .andExpect(jsonPath("$.message", is("Hello, World!")));
+  }
 }
