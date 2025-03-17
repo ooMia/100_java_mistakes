@@ -1,16 +1,15 @@
 package com.example.mistakes.api.questions.service;
 
+import com.example.mistakes.api.questions.QuestionEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.mistakes.api.questions.QuestionEntity;
-
 @Service
+@RequiredArgsConstructor
 public class QuestionServiceImpl implements QuestionService<QuestionEntity, Long> {
-  private final ReadOnlyFsRepository<QuestionEntity, Long> repository;
 
-  public QuestionServiceImpl(ReadOnlyFsRepository<QuestionEntity, Long> repository) {
-    this.repository = repository;
-  }
+  @Autowired private final ReadOnlyFsRepository<QuestionEntity, Long> repository;
 
   @Override
   public QuestionEntity findById(Long id) {
