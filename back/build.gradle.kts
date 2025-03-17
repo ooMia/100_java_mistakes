@@ -44,6 +44,9 @@ dependencies {
     // Document RESTful services by combining hand-written with Asciidoctor
     // and auto-generated snippets produced with Spring MVC Test
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+
+    // Spring Data base dependency without any database-specific functionality
+    implementation("org.springframework.data:spring-data-commons")
 }
 
 tasks.withType<Test> {
