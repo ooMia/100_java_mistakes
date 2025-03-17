@@ -1,0 +1,25 @@
+---
+import GlobalStyles from "@/components/GlobalStyles.astro";
+import ApiDataLayout from "@/layouts/ApiDataLayout.astro";
+import Layout from "@/layouts/Landing.astro";
+import { endpoints } from "@/modules/getEndpoints";
+
+export function getStaticPaths() {
+  return endpoints.map((e) => {
+    return {
+      params: { subject: e.subject, id: e.id },
+    };
+  });
+}
+const prefix = "api";
+const { subject, id } = Astro.params;
+---
+
+<GlobalStyles />
+<Layout>
+  <ApiDataLayout
+    apiPath=`${prefix}/${subject}/${id}`
+    title=`Fetch API`
+    description=`Question fetched from API endpoint ${prefix}/${subject}/${id}`
+  />
+</Layout>
