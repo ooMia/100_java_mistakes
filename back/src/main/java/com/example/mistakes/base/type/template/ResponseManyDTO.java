@@ -1,39 +1,31 @@
 package com.example.mistakes.base.type.template;
 
 import com.example.mistakes.base.type.definition.ResponseMany;
+import java.util.List;
+import lombok.Getter;
 
-public abstract class ResponseManyDTO<T> {
+/**
+ * Wrapper class for implementing `ResponseMany` interface while supporting compatability with record-based DTOs
+ *
+ * @param <T> type of result
+ * @see ResponseMany
+ */
+@Getter
+public abstract class ResponseManyDTO<T> implements ResponseMany<T> {
 
-  private final ResponseManyImpl impl;
+  private final List<T> result;
+  private final Number length;
 
-  public ResponseManyDTO(T[] data) {
-    this.impl = new ResponseManyImpl(data);
+  public ResponseManyDTO(Iterable<T> result) {
+    this.result = (List<T>) result;
+    this.length = this.result.size();
   }
 
-  private class ResponseManyImpl implements ResponseMany<T> {
-
-    final T[] data;
-
-    ResponseManyImpl(T[] data) {
-      this.data = data;
-    }
-
-    @Override
-    public T[] result() {
-      return data;
-    }
-
-    @Override
-    public int length() {
-      return data.length;
-    }
+  public final Number length() {
+    return length;
   }
 
-  public T[] getResult() {
-    return impl.result();
-  }
-
-  public int getLength() {
-    return impl.length();
+  public final Iterable<T> result() {
+    return result;
   }
 }

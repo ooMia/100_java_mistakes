@@ -1,7 +1,7 @@
 package com.example.mistakes.base.type.definition;
 
 public interface ResponseMany<T> {
-  T[] result();
+  Iterable<T> result();
 
-  int length();
+  Number length();
 }
