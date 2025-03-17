@@ -8,3 +8,5 @@ export const endpoints: { subject: string; id: string }[] = [
     id: "t2",
   },
 ];
+
+// TODO: modify to actual endpoints

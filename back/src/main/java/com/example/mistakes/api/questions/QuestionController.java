@@ -16,6 +16,8 @@ public class QuestionController {
     new QuestionEntity("D"),
   };
 
+  // TODO: get data from service
+
   @GetMapping("/t1")
   public ResponseEntity<QuestionResponse> t1() {
     final var dto = new QuestionResponse(this.data, data.length);

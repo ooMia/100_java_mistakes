@@ -19,4 +19,6 @@ com.example
   │   └── service
   └── util
 
+TODO: refactor project structure 
 
+TODO: add questions
