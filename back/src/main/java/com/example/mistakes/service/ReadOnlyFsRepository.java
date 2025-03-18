@@ -1,6 +1,7 @@
-package com.example.mistakes.api.questions.service;
+package com.example.mistakes.service;
 
-import com.example.mistakes.base.type.definition.ID;
+import com.example.mistakes.base.type.FsMeta;
+import com.example.mistakes.base.type.ID;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -24,8 +25,8 @@ import org.springframework.stereotype.Repository;
  * @see org.springframework.data.repository.Repository
  */
 @Repository
-class ReadOnlyFsRepository<T extends ID>
-    implements CrudRepository<T, Integer>, QueryByExampleExecutor<T> {
+class ReadOnlyFsRepository<T extends ID & FsMeta>
+    implements CrudRepository<T, Number>, QueryByExampleExecutor<T> {
 
   Map<Number, T> data = new HashMap<>();
 
@@ -36,8 +37,13 @@ class ReadOnlyFsRepository<T extends ID>
   }
 
   @Override
-  public @NonNull Optional<T> findById(@NonNull Integer id) {
+  public @NonNull Optional<T> findById(@NonNull Number id) {
     return Optional.ofNullable(data.get(id));
+  }
+
+  @Override
+  public @NonNull Iterable<T> findAll() {
+    return data.values();
   }
 
   @Override
@@ -90,19 +96,13 @@ class ReadOnlyFsRepository<T extends ID>
   }
 
   @Override
-  public boolean existsById(Integer id) {
+  public boolean existsById(Number id) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'existsById'");
   }
 
   @Override
-  public Iterable<T> findAll() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-  }
-
-  @Override
-  public Iterable<T> findAllById(Iterable<Integer> ids) {
+  public Iterable<T> findAllById(Iterable<Number> ids) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'findAllById'");
   }
@@ -114,7 +114,7 @@ class ReadOnlyFsRepository<T extends ID>
   }
 
   @Override
-  public void deleteById(Integer id) {
+  public void deleteById(Number id) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
   }
@@ -126,7 +126,7 @@ class ReadOnlyFsRepository<T extends ID>
   }
 
   @Override
-  public void deleteAllById(Iterable<? extends Integer> ids) {
+  public void deleteAllById(Iterable<? extends Number> ids) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'deleteAllById'");
   }

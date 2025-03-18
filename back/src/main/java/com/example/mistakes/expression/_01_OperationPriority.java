@@ -1,25 +1,17 @@
 package com.example.mistakes.expression;
 
+import com.example.mistakes.QuestionEntityBuilder;
 import com.example.mistakes.api.questions.QuestionEntity;
-import com.example.mistakes.api.questions.service.QuestionService;
-import java.util.List;
+import com.example.mistakes.service.QuestionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class _01_OperationPriority {
 
-  List<String> sourceBefore =
-      List.of("int before (short lo, short hi) {" + "  return lo << 16 + hi;" + "}");
-  List<String> sourceAfter =
-      List.of("int after (short lo, short hi) {" + "  return (lo << 16) + hi;" + "}");
-  QuestionEntity entity =
-      new QuestionEntity(
-          this.getClass().getSimpleName(),
-          String.join("\n", sourceBefore),
-          String.join("\n", sourceAfter));
-
-  public _01_OperationPriority(QuestionService<QuestionEntity> service) {
-    service.add(entity);
+  _01_OperationPriority(@Autowired QuestionService<QuestionEntity> service) {
+    var builder = new QuestionEntityBuilder<_01_OperationPriority>();
+    service.add(builder.build(_01_OperationPriority.class));
   }
 
   int before(short lo, short hi) {

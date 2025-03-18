@@ -1,10 +1,12 @@
 package com.example.mistakes.api.questions;
 
-import com.example.mistakes.base.type.definition.ID;
-import com.example.mistakes.base.type.definition.Message;
+import com.example.mistakes.base.type.FsMeta;
+import com.example.mistakes.base.type.ID;
+import com.example.mistakes.base.type.Message;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-public record QuestionEntity(String message, String sourceBefore, String sourceAfter)
-    implements Message, ID {
+public record QuestionEntity(String message) implements Message, ID, FsMeta {
 
   public Number getId() {
     String filtered = message.replaceAll("[^0-9]", "");
@@ -13,5 +15,10 @@ public record QuestionEntity(String message, String sourceBefore, String sourceA
     }
     Number id = Integer.parseInt(filtered);
     return id;
+  }
+
+  public Path getPath() {
+    String prefix = "src/main/java";
+    return Paths.get(prefix, message);
   }
 }

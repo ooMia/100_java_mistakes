@@ -1,11 +1,12 @@
-package com.example.mistakes.base.type.template;
+package com.example.mistakes.base.template;
 
-import com.example.mistakes.base.type.definition.ResponseMany;
+import com.example.mistakes.base.type.ResponseMany;
 import java.util.List;
 import lombok.Getter;
 
 /**
- * Wrapper class for implementing `ResponseMany` interface while supporting compatability with record-based DTOs
+ * Wrapper class for implementing `ResponseMany` interface while supporting compatability with
+ * record-based DTOs
  *
  * @param <T> type of result
  * @see ResponseMany
