@@ -1,6 +1,12 @@
 interface Response {
   message?: string;
-  result?: any;
+  result?: {
+    id: number;
+    message: string;
+    before: string;
+    after: string;
+    path: string;
+  }[];
   length?: number;
 }
 
