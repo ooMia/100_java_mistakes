@@ -1,13 +1,10 @@
 package com.example.mistakes.expression;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.example.mistakes.api.questions.QuestionEntity;
 import com.example.mistakes.service.QuestionService;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Random;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
@@ -28,51 +25,22 @@ class _01_OperationPriorityTests {
 
   @Test
   void testRegistration() {
-    System.out.println(service.findAll());
-    // assertEquals(target.entity, service.findById(1));
-    for (Method method : target.getClass().getDeclaredMethods()) {
-      System.out.println("Method Name: " + method.getName());
-      System.out.println("Method Signature: " + method.toGenericString());
+    var classPath = "com/example/mistakes/expression/_01_OperationPriority.java";
+    var before = "int before(short lo, short hi) { return lo << 16 + hi; }";
+    var after = "int after(short lo, short hi) { return (lo << 16) + hi; }";
+    var entity = service.findById(1);
+    assertEquals(entity.message(), classPath);
+    assertEquals(entity.getId(), 1);
+    assertEquals(entity.getPath().toString(), "src/main/java/" + classPath);
 
-      try {
-        // Get the code of the method by reading the source file
-        Class<?> clazz = target.getClass();
-        String className = clazz.getSimpleName();
-        String methodName = method.getName();
-
-        // Construct the path to the source file
-        String sourceFilePath =
-            "src/main/java/com/example/mistakes/expression/"
-                + className
-                + ".java"; // Adjust path if needed
-        Path path = Path.of(sourceFilePath);
-
-        // Read all lines from the source file
-        String methodCode = readMethodCode(path, methodName);
-        System.out.println("Method Code:\n" + methodCode);
-
-      } catch (Exception e) {
-        System.err.println(
-            "Error reading code for method " + method.getName() + ": " + e.getMessage());
-      }
-    }
+    assertTrue(normalize(entity.getBefore()).contains(before));
+    assertTrue(normalize(entity.getAfter()).contains(after));
   }
 
-  private String readMethodCode(Path path, String methodName) throws IOException {
-    StringBuilder methodCode = new StringBuilder();
-    boolean methodFound = false;
-    for (String line : Files.readAllLines(path)) {
-      if (line.contains(" " + methodName + "(")) { // Simple check for method signature
-        methodFound = true;
-        methodCode.append(line).append("\n");
-      } else if (methodFound && line.contains("}")) {
-        methodCode.append(line).append("\n");
-        break; // Stop reading after the closing brace of the method
-      } else if (methodFound) {
-        methodCode.append(line).append("\n");
-      }
-    }
-    return methodCode.toString();
+  // need post-processing to remove redundant spaces
+  // i.g. double-spaces or tab or newline to single space
+  private String normalize(String code) {
+    return code.replaceAll("\\s+", " ");
   }
 
   @ParameterizedTest
