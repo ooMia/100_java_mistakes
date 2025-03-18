@@ -12,7 +12,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DynamicTest;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,12 +27,12 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
-public class BaseAPITests {
+class BaseAPITests {
 
   @Autowired private MockMvc mockMvc;
   @Autowired private RequestMappingHandlerMapping handlerMapping;
 
-  private ResultMatcher[] matchers() {
+  ResultMatcher[] matchers() {
     return new ResultMatcher[] {
       status().isOk(),
       content().contentType(MediaType.APPLICATION_JSON),
@@ -42,39 +41,12 @@ public class BaseAPITests {
     };
   }
 
-  @Test
-  public void testOneStatic() throws Exception {
-    mockMvc.perform(get("/api/questions/t1")).andExpectAll(matchers());
-  }
-
-  @Test
-  public void testSomeStatic() throws Exception {
-    Iterable<String> apis =
-        List.of(
-            // "/api/hello",
-            "/api/questions/t1", "/api/questions/t2");
-    for (String api : apis) {
-      mockMvc.perform(get(api)).andExpectAll(matchers());
-    }
-  }
-
-  @TestFactory
-  // testSingleDynamic()
-  public Stream<DynamicTest> testSomeStaticAsFactory() {
-    var urls = List.of("/api/questions/t1", "/api/questions/t2");
-    return urls.parallelStream()
-        .map(
-            url ->
-                DynamicTest.dynamicTest(
-                    url, () -> mockMvc.perform(get(url)).andExpectAll(matchers())));
-  }
-
   /**
    * Extract `GET /api/**` endpoints from handlerMapping
    *
    * @return List of endpoints
    */
-  private List<String> getEndpoints() {
+  List<String> getEndpoints() {
 
     var keys = handlerMapping.getHandlerMethods().keySet().stream().toList();
 
@@ -105,7 +77,7 @@ public class BaseAPITests {
   }
 
   @TestFactory
-  public Stream<DynamicTest> testSomeDynamicAsFactory() {
+  Stream<DynamicTest> testSomeDynamicAsFactory() {
     var urls = List.of("/api/questions/t1", "/api/questions/t2");
     var endpoints = getEndpoints();
     assert endpoints.containsAll(urls);

@@ -14,11 +14,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class QuestionAPITests {
+class QuestionAPITests {
 
   @Autowired private MockMvc mockMvc;
 
-  public void testGetQuestion() throws Exception {
+  void testGetQuestion() throws Exception {
     mockMvc
         .perform(get("/api/questions/t1").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
