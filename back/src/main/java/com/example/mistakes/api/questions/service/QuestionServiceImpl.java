@@ -7,32 +7,41 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class QuestionServiceImpl implements QuestionService<QuestionEntity, Long> {
+class QuestionServiceImpl implements QuestionService<QuestionEntity> {
 
-  @Autowired private final ReadOnlyFsRepository<QuestionEntity, Long> repository;
+  @Autowired private final ReadOnlyFsRepository<QuestionEntity> repository;
 
   @Override
-  public QuestionEntity findById(Long id) {
+  public void add(QuestionEntity entity) {
+    repository.save(entity);
+  }
+
+  @Override
+  public QuestionEntity findById(Integer id) {
     return repository.findById(id).orElse(null);
   }
 
   @Override
   public Iterable<QuestionEntity> findByChapter(String chapter) {
-    throw new UnsupportedOperationException("Not implemented");
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'findByChapter'");
   }
 
   @Override
-  public Iterable<QuestionEntity> findByChapter(Long id) {
-    throw new UnsupportedOperationException("Not implemented");
+  public Iterable<QuestionEntity> findByChapter(Integer number) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'findByChapter'");
   }
 
   @Override
   public Iterable<QuestionEntity> findByKeywords(String keyword) {
-    throw new UnsupportedOperationException("Not implemented");
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'findByKeywords'");
   }
 
   @Override
   public Iterable<QuestionEntity> findByKeywords(Iterable<String> keywords, ConditionType type) {
-    throw new UnsupportedOperationException("Not implemented");
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'findByKeywords'");
   }
 }

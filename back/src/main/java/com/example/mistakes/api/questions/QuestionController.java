@@ -15,10 +15,10 @@ public class QuestionController {
   private final List<QuestionEntity> data =
       // TODO: get data from service
       List.of(
-          new QuestionEntity("A"),
-          new QuestionEntity("B"),
-          new QuestionEntity("C"),
-          new QuestionEntity("D"));
+          new QuestionEntity("A", "A", "A"),
+          new QuestionEntity("B", "B", "B"),
+          new QuestionEntity("C", "C", "C"),
+          new QuestionEntity("D", "D", "D"));
 
   @GetMapping("/t1")
   public ResponseEntity<ResponseMany<QuestionEntity>> t1() {

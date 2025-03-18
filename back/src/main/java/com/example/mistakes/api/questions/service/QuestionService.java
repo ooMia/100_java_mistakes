@@ -1,14 +1,16 @@
 package com.example.mistakes.api.questions.service;
 
-interface QuestionService<T, ID> {
+public interface QuestionService<T> {
+
+  void add(T entity);
 
   // 1. query by question id
-  T findById(ID id);
+  T findById(Integer id);
 
   // 2. chapter
   Iterable<T> findByChapter(String chapter);
 
-  Iterable<T> findByChapter(ID id);
+  Iterable<T> findByChapter(Integer number);
 
   // 3. keywords
   enum ConditionType {
