@@ -21,7 +21,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 class _01_OperationPriorityTests {
 
   @Autowired private QuestionService<QuestionEntity> service;
-  @Autowired private _01_OperationPriority target;
 
   // need post-processing to remove redundant spaces
   // i.g. double-spaces or tab or newline to single space
@@ -72,6 +71,7 @@ class _01_OperationPriorityTests {
   @MethodSource("randomArguments")
   @DisplayName("Fuzz test with random inputs using ParameterizedTest")
   void fuzzTest(short lo, short hi) {
+    var target = new _01_OperationPriority.Ex1();
     assertEquals(
         target.after(lo, hi),
         lo * Math.pow(2, 16) + hi,

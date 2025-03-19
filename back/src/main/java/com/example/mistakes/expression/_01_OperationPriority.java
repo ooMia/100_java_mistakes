@@ -10,21 +10,21 @@ import org.springframework.stereotype.Component;
 public class _01_OperationPriority {
 
   _01_OperationPriority(@Autowired QuestionService<QuestionEntity> service) {
-    var builder = new QuestionEntityBuilder<_01_OperationPriority>();
-    service.add(builder.build(_01_OperationPriority.class));
-
+    service.add(new QuestionEntityBuilder<Ex1>().build(Ex1.class));
     service.add(new QuestionEntityBuilder<Ex2>().build(Ex2.class));
   }
 
-  int before(short lo, short hi) {
-    return lo << 16 + hi;
+  static class Ex1 {
+    int before(short lo, short hi) {
+      return lo << 16 + hi;
+    }
+
+    int after(short lo, short hi) {
+      return (lo << 16) + hi;
+    }
   }
 
-  int after(short lo, short hi) {
-    return (lo << 16) + hi;
-  }
-
-  class Ex2 {
+  static class Ex2 {
     String subContext = "Binary Shift";
     short xmin = 1, ymin = 1, xmax = 1, ymax = 1;
 
