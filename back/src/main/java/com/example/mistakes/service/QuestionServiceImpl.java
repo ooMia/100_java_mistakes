@@ -2,6 +2,7 @@ package com.example.mistakes.service;
 
 import com.example.mistakes.api.questions.QuestionEntity;
 import java.util.List;
+import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,8 @@ public class QuestionServiceImpl implements QuestionService<QuestionEntity> {
   }
 
   @Override
-  public QuestionEntity findById(String id) {
-    return repository.findById(id).orElse(null);
+  public QuestionEntity findById(String id) throws NoSuchElementException {
+    return repository.findById(id).orElseThrow();
   }
 
   @Override

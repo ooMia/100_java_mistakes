@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @RequiredArgsConstructor
-class _01_OperationPriorityTests {
+class _02_OperationPriorityTests {
 
   @Autowired private QuestionService<QuestionEntity> service;
 
@@ -30,12 +30,13 @@ class _01_OperationPriorityTests {
 
   @Test
   void testRegistration() {
-    var classPath = "com/example/mistakes/expression/_01_OperationPriority.java";
+    var message = "com.example.mistakes.expression._02_OperationPriority.Ex1";
+    var classPath = "com/example/mistakes/expression/_02_OperationPriority.java";
     var before = "int before(short lo, short hi) { return lo << 16 + hi; }";
     var after = "int after(short lo, short hi) { return (lo << 16) + hi; }";
-    var entity = service.findById("1");
-    assertEquals(entity.message(), classPath);
-    assertEquals(entity.getId(), "1");
+    var entity = service.findById("_02_1");
+    assertEquals(entity.getId(), "_02_1");
+    assertEquals(entity.message(), message);
     assertEquals(entity.getPath().toString(), "src/main/java/" + classPath);
 
     assertTrue(normalize(entity.getBefore()).contains(before));
@@ -44,8 +45,8 @@ class _01_OperationPriorityTests {
 
   @Test
   void testEx2() {
-    var message = "com.example.mistakes.expression._01_OperationPriority.Ex2";
-    var classPath = "com/example/mistakes/expression/_01_OperationPriority.java";
+    var message = "com.example.mistakes.expression._02_OperationPriority.Ex2";
+    var classPath = "com/example/mistakes/expression/_02_OperationPriority.java";
     var before = "int before() { return xmin + ymin << 8 + xmax << 16 + ymax << 24; }";
     var after = "int after() { return xmin + (ymin << 8) + (xmax << 16) + (ymax << 24); }";
 
@@ -57,10 +58,10 @@ class _01_OperationPriorityTests {
     // System.out.println(entity.getBefore());
     // System.out.println(entity.getAfter());
 
-    var entity = service.findById("_01_2");
+    var entity = service.findById("_02_2");
     // var entity = service.find(2, 2);
     assertEquals(entity.message(), message);
-    assertEquals(entity.getId(), "_01_2");
+    assertEquals(entity.getId(), "_02_2");
     assertEquals(entity.getPath().toString(), "src/main/java/" + classPath);
 
     assertTrue(normalize(entity.getBefore()).contains(before));
@@ -71,7 +72,7 @@ class _01_OperationPriorityTests {
   @MethodSource("randomArguments")
   @DisplayName("Fuzz test with random inputs using ParameterizedTest")
   void fuzzTest(short lo, short hi) {
-    var target = new _01_OperationPriority.Ex1();
+    var target = new _02_OperationPriority.Ex1();
     assertEquals(
         target.after(lo, hi),
         lo * Math.pow(2, 16) + hi,

@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class _01_OperationPriority {
+public class _02_OperationPriority {
 
-  _01_OperationPriority(@Autowired QuestionService<QuestionEntity> service) {
+  _02_OperationPriority(@Autowired QuestionService<QuestionEntity> service) {
     service.add(new QuestionEntityBuilder<Ex1>().build(Ex1.class));
     service.add(new QuestionEntityBuilder<Ex2>().build(Ex2.class));
   }

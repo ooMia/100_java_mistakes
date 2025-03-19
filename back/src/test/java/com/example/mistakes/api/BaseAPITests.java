@@ -12,6 +12,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -76,17 +77,38 @@ class BaseAPITests {
     return endpoints;
   }
 
+  @Test
+  void testLogEndpoints() {
+    log.info("Endpoints: {}", getEndpoints());
+    // [
+    // /v3/api-docs, /v3/api-docs.yaml, /error, /v3/api-docs/swagger-config, /error,
+    // /swagger-ui.html,
+    // /api/questions/t3,
+    // /api/questions/{id}, /api/hello, /api/expression/{index}]
+  }
+
   @TestFactory
   Stream<DynamicTest> testSomeDynamicAsFactory() {
-    var urls = List.of("/api/questions/t1", "/api/questions/t2");
-    var endpoints = getEndpoints();
-    assert endpoints.containsAll(urls);
+    List<String> endpoints =
+        List.of(
+            "/api/questions/t3", "/api/questions/{id}", "/api/hello", "/api/expression/{index}");
+
+    assert endpoints.containsAll(endpoints);
 
     return getEndpoints().stream()
-        .filter(e -> e.startsWith("/api/questions"))
+        .filter(e -> e.startsWith("/api") && !e.equals("/api/hello"))
         .map(
-            url ->
-                DynamicTest.dynamicTest(
-                    url, () -> mockMvc.perform(get(url)).andExpectAll(matchers())));
+            url -> {
+              String requestUrl = url.replace("{id}", "2").replace("{index}", "2");
+              return DynamicTest.dynamicTest(
+                  url, () -> mockMvc.perform(get(requestUrl)).andExpectAll(matchers()));
+            });
+
+    // return getEndpoints().stream()
+    //     .filter(e -> e.startsWith("/api/questions"))
+    //     .map(
+    //         url ->
+    //             DynamicTest.dynamicTest(
+    //                 url, () -> mockMvc.perform(get(url)).andExpectAll(matchers())));
   }
 }
