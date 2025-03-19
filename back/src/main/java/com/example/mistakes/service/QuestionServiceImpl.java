@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class QuestionServiceImpl implements QuestionService<QuestionEntity> {
 
-  @Autowired private final ReadOnlyFsRepository<QuestionEntity> repository;
+  @Autowired private final ReadOnlyFsRepository<QuestionEntity, String> repository;
 
   @Override
   public void add(QuestionEntity entity) {
@@ -18,7 +18,13 @@ public class QuestionServiceImpl implements QuestionService<QuestionEntity> {
   }
 
   @Override
-  public QuestionEntity findById(Integer id) {
+  public QuestionEntity find(Number chapter, Number index) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'find'");
+  }
+
+  @Override
+  public QuestionEntity findById(String id) {
     return repository.findById(id).orElse(null);
   }
 
@@ -30,13 +36,13 @@ public class QuestionServiceImpl implements QuestionService<QuestionEntity> {
   }
 
   @Override
-  public List<QuestionEntity> findByChapter(String chapter) {
+  public List<QuestionEntity> findByChapter(String name) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'findByChapter'");
   }
 
   @Override
-  public List<QuestionEntity> findByChapter(Integer number) {
+  public List<QuestionEntity> findByChapter(Number index) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'findByChapter'");
   }

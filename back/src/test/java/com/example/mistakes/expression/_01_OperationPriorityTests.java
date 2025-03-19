@@ -23,24 +23,49 @@ class _01_OperationPriorityTests {
   @Autowired private QuestionService<QuestionEntity> service;
   @Autowired private _01_OperationPriority target;
 
+  // need post-processing to remove redundant spaces
+  // i.g. double-spaces or tab or newline to single space
+  private String normalize(String code) {
+    return code.replaceAll("\\s+", " ");
+  }
+
   @Test
   void testRegistration() {
     var classPath = "com/example/mistakes/expression/_01_OperationPriority.java";
     var before = "int before(short lo, short hi) { return lo << 16 + hi; }";
     var after = "int after(short lo, short hi) { return (lo << 16) + hi; }";
-    var entity = service.findById(1);
+    var entity = service.findById("1");
     assertEquals(entity.message(), classPath);
-    assertEquals(entity.getId(), 1);
+    assertEquals(entity.getId(), "1");
     assertEquals(entity.getPath().toString(), "src/main/java/" + classPath);
 
     assertTrue(normalize(entity.getBefore()).contains(before));
     assertTrue(normalize(entity.getAfter()).contains(after));
   }
 
-  // need post-processing to remove redundant spaces
-  // i.g. double-spaces or tab or newline to single space
-  private String normalize(String code) {
-    return code.replaceAll("\\s+", " ");
+  @Test
+  void testEx2() {
+    var message = "com.example.mistakes.expression._01_OperationPriority.Ex2";
+    var classPath = "com/example/mistakes/expression/_01_OperationPriority.java";
+    var before = "int before() { return xmin + ymin << 8 + xmax << 16 + ymax << 24; }";
+    var after = "int after() { return xmin + (ymin << 8) + (xmax << 16) + (ymax << 24); }";
+
+    // var entity = service.findAll().get(1);
+    // System.out.println(entity);
+    // System.out.println(entity.message());
+    // System.out.println(entity.getId());
+    // System.out.println(entity.getPath().toString());
+    // System.out.println(entity.getBefore());
+    // System.out.println(entity.getAfter());
+
+    var entity = service.findById("_01_2");
+    // var entity = service.find(2, 2);
+    assertEquals(entity.message(), message);
+    assertEquals(entity.getId(), "_01_2");
+    assertEquals(entity.getPath().toString(), "src/main/java/" + classPath);
+
+    assertTrue(normalize(entity.getBefore()).contains(before));
+    assertTrue(normalize(entity.getAfter()).contains(after));
   }
 
   @ParameterizedTest

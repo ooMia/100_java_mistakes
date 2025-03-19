@@ -8,13 +8,15 @@ public interface QuestionService<T> {
 
   List<T> findAll();
 
+  T find(Number chapter, Number index);
+
   // 1. query by question id
-  T findById(Integer id);
+  T findById(String id);
 
   // 2. chapter
-  List<T> findByChapter(String chapter);
+  List<T> findByChapter(String name);
 
-  List<T> findByChapter(Integer number);
+  List<T> findByChapter(Number index);
 
   // 3. keywords
   enum ConditionType {

@@ -1,7 +1,7 @@
 package com.example.mistakes.service;
 
 import com.example.mistakes.base.type.FsMeta;
-import com.example.mistakes.base.type.ID;
+import com.example.mistakes.base.type.Identifiable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -25,10 +25,10 @@ import org.springframework.stereotype.Repository;
  * @see org.springframework.data.repository.Repository
  */
 @Repository
-class ReadOnlyFsRepository<T extends ID & FsMeta>
-    implements CrudRepository<T, Number>, QueryByExampleExecutor<T> {
+class ReadOnlyFsRepository<T extends Identifiable<ID> & FsMeta, ID>
+    implements CrudRepository<T, ID>, QueryByExampleExecutor<T> {
 
-  Map<Number, T> data = new HashMap<>();
+  Map<ID, T> data = new HashMap<>();
 
   @Override
   public @NonNull <S extends T> S save(@NonNull S entity) {
@@ -37,7 +37,7 @@ class ReadOnlyFsRepository<T extends ID & FsMeta>
   }
 
   @Override
-  public @NonNull Optional<T> findById(@NonNull Number id) {
+  public @NonNull Optional<T> findById(@NonNull ID id) {
     return Optional.ofNullable(data.get(id));
   }
 
@@ -96,13 +96,13 @@ class ReadOnlyFsRepository<T extends ID & FsMeta>
   }
 
   @Override
-  public boolean existsById(Number id) {
+  public boolean existsById(ID id) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'existsById'");
   }
 
   @Override
-  public Iterable<T> findAllById(Iterable<Number> ids) {
+  public Iterable<T> findAllById(Iterable<ID> ids) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'findAllById'");
   }
@@ -114,7 +114,7 @@ class ReadOnlyFsRepository<T extends ID & FsMeta>
   }
 
   @Override
-  public void deleteById(Number id) {
+  public void deleteById(ID id) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
   }
@@ -126,7 +126,7 @@ class ReadOnlyFsRepository<T extends ID & FsMeta>
   }
 
   @Override
-  public void deleteAllById(Iterable<? extends Number> ids) {
+  public void deleteAllById(Iterable<? extends ID> ids) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'deleteAllById'");
   }
