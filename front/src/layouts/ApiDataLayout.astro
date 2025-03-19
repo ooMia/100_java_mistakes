@@ -1,6 +1,7 @@
 ---
+import CodeCard from "@/components/core/CodeCard.astro";
+import PageHandler from "@/components/PageHandler.astro";
 import { fetchDataWithRetry } from "@/modules/fetchData";
-import { Code } from "astro:components";
 
 export interface Props {
   apiPath: string;
@@ -49,46 +50,16 @@ title = message
     <slot name='info' />
   </div>
 
-  <div class='response-data'>
-    <h3>API Response</h3>
-    <div>GET /{apiPath}</div>
-    <Code
-      code={JSON.stringify(data, null, 2)}
-      lang='json'
-      theme='dark-plus'
-      style='padding: 1.5rem; margin: 0;'
-      wrap
-      tabindex={null}
-    />
-    <slot name='additional-data' />
-  </div>
+  <CodeCard
+    title='API Response'
+    summary={`GET /${apiPath}`}
+    code={data}
+    lang='json'
+  />
+  <CodeCard title='before' summary='before' code={before} lang='java' />
+  <CodeCard title='after' summary='after' code={after} lang='java' />
 
-  <div class='response-data'>
-    <h3>before</h3>
-    <Code
-      code={before}
-      lang='java'
-      theme='dark-plus'
-      style='padding: 1.5rem; margin: 0;'
-      wrap
-      tabindex={null}
-    />
-    <slot name='additional-data' />
-  </div>
-
-  <div class='response-data'>
-    <h3>after</h3>
-    <Code
-      code={after}
-      lang='java'
-      theme='dark-plus'
-      style='padding: 1.5rem; margin: 0;'
-      wrap
-      tabindex={null}
-    />
-    <slot name='additional-data' />
-  </div>
-  <slot />
+  <PageHandler />
 </div>
 
 <style>
@@ -129,41 +100,5 @@ title = message
   .info-box p {
     color: #fff;
     line-height: 1.7;
-  }
-
-  .response-data {
-    background: rgba(20, 30, 60, 0.3);
-    opacity: 0;
-    animation: fadeIn 1s forwards;
-    animation-delay: 0.6s;
-    animation-fill-mode: both;
-
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .response-data h3 {
-    padding: 0 0 0 0.5rem;
-    margin: 0;
-    font-size: 1.5rem;
-    color: #4facfe;
-  }
-
-  .response-data div {
-    margin: 0;
-    color: #4facfe;
-    font-family: "Fira Code", monospace;
-    background: rgba(0, 0, 0, 0.2);
-    display: inline-block;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
   }
 </style>

@@ -1,4 +1,7 @@
-<!doctype html>
+---
+import Navigator from "@/components/Navigator.astro";
+---
+
 <html lang='en'>
   <head>
     <meta charset='UTF-8' />
@@ -8,6 +11,9 @@
     <title>Astro Basics</title>
   </head>
   <body>
+    <nav>
+      <Navigator />
+    </nav>
     <slot />
   </body>
 </html>
