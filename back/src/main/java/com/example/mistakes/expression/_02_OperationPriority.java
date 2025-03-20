@@ -15,6 +15,8 @@ public class _02_OperationPriority {
   }
 
   static class Ex1 {
+    String subContext = "Binary Shift";
+
     int before(short lo, short hi) {
       return lo << 16 + hi;
     }
@@ -34,6 +36,31 @@ public class _02_OperationPriority {
 
     int after() {
       return xmin + (ymin << 8) + (xmax << 16) + (ymax << 24);
+    }
+  }
+
+  static class Ex3 {
+    String subContext = "Binary Shift";
+    int BLOCK_SIZE = 64 * 1024;
+
+    int before() {
+      return BLOCK_SIZE + BLOCK_SIZE >> 2;
+    }
+
+    int after() {
+      return BLOCK_SIZE + (BLOCK_SIZE >> 2);
+    }
+  }
+
+  static class Ex4 {
+    String subContext = "Bitwise Operator";
+
+    int before(int bits) {
+      return bits & 0xFF00 + 1;
+    }
+
+    int after(int bits) {
+      return (bits & 0xFF00) | 1;
     }
   }
 }
