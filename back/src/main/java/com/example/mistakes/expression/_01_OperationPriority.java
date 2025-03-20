@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class _02_OperationPriority {
+public class _01_OperationPriority {
 
-  _02_OperationPriority(@Autowired QuestionService<QuestionEntity> service) {
+  _01_OperationPriority(@Autowired QuestionService<QuestionEntity> service) {
     service.add(new QuestionEntityBuilder<Ex1>().build(Ex1.class));
     service.add(new QuestionEntityBuilder<Ex2>().build(Ex2.class));
+    service.add(new QuestionEntityBuilder<Ex3>().build(Ex3.class));
+    service.add(new QuestionEntityBuilder<Ex4>().build(Ex4.class));
   }
 
   static class Ex1 {

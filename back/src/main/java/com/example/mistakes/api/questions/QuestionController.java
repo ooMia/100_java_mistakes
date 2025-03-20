@@ -36,7 +36,7 @@ public class QuestionController {
   @GetMapping("/expression/{index}")
   public ResponseEntity<ResponseMany<QuestionEntity>> findOneInExpressionByIndex(
       @PathVariable("index") int index) {
-    final var data = this.service.findById("_02_%d".formatted(index));
+    final var data = this.service.findById("_01_%d".formatted(index));
     final var dto = new ResClassQuestion(List.of(data));
     return ResponseEntity.ok().body(dto);
   }

@@ -6,13 +6,13 @@
 
 
 # 2. 표현식 Expression
-1. [ ] 숫자 연산자 우선순위 오해 OperationPriority
+1. [x] 숫자 연산자 우선순위 오해 OperationPriority
    - [x] 이진 시프트 BinaryShift
-   - [ ] 비트 연산자 BitwiseOperator
-2. [ ] 조건식의 괄호 누락 MissingParentheses
-   - [ ] &&, ||의 우선순위 LogicalOperatorPrecedence
-   - [ ] 조건 연산자와 덧셈 TernaryWithAddition
-   - [ ] 조건 연산자와 null 검사 TernaryWithNullCheck
+   - [x] 비트 연산자 BitwiseOperator
+2. [x] 조건식의 괄호 누락 MissingParentheses
+   - [x] &&, ||의 우선순위 LogicalOperatorPrecedence
+   - [x] 조건 연산자와 덧셈 TernaryWithAddition
+   - [x] 조건 연산자와 null 검사 TernaryWithNullCheck
 3. [ ] 덧셈이 아닌 결합으로 작동 StringConcatenation
 4. [ ] 멀티라인 문자열 리터럴 MultilineStringLiteral
 5. [ ] 단항 덧셈 연산자 UnaryPlusOperator

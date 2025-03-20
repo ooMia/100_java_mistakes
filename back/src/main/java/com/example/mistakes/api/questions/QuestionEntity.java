@@ -8,24 +8,41 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.extern.log4j.Log4j2;
 
+// TODO: refactor to class
 @Log4j2
 public record QuestionEntity(String message) implements Message, Identifiable<String>, FsMeta {
 
+  public Number getChapter() {
+    var data = new HashMap<String, Number>();
+    data.put("expression", 2);
+
+    var topLevelPackage = message.split("\\.")[3];
+
+    return data.getOrDefault(topLevelPackage, 0);
+  }
+
   public String getId() {
+    // TODO: refactor using getChapter()
+    var data = new HashMap<String, Number>();
+    data.put("expression", 2);
+    var topLevelPackage = message.split("\\.")[3];
+    var chapter = data.getOrDefault(topLevelPackage, 0);
+
     // new: return 1-2 when got _01_OperationPriority
     // when getting `com.example.mistakes.expression._01_OperationPriority.Ex2`
     // return id = "_01_2"
     Pattern pattern = Pattern.compile("_(\\d+)_\\S+(\\d+)");
     Matcher matcher = pattern.matcher(message);
     if (matcher.find()) {
-      String chapter = matcher.group(1);
+      String mistakeId = matcher.group(1);
       String index = matcher.group(2);
-      return "_%s_%s".formatted(chapter, index);
+      return "_%s_%s".formatted(mistakeId, index);
     }
 
     // legacy: return 1 when got `com/example/mistakes/expression/_01_OperationPriority.java`

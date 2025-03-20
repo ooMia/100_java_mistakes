@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @RequiredArgsConstructor
-class _02_OperationPriorityTests {
+class _01_OperationPriorityTests {
 
   @Autowired private QuestionService<QuestionEntity> service;
 
@@ -27,14 +27,15 @@ class _02_OperationPriorityTests {
     return code.replaceAll("\\s+", " ");
   }
 
+  // TODO: move to BaseAPITests
   @Test
   void testRegistration() {
-    var message = "com.example.mistakes.expression._02_OperationPriority.Ex1";
-    var classPath = "com/example/mistakes/expression/_02_OperationPriority.java";
+    var message = "com.example.mistakes.expression._01_OperationPriority.Ex1";
+    var classPath = "com/example/mistakes/expression/_01_OperationPriority.java";
     var before = "int before(short lo, short hi) { return lo << 16 + hi; }";
     var after = "int after(short lo, short hi) { return (lo << 16) + hi; }";
-    var entity = service.findById("_02_1");
-    assertEquals(entity.getId(), "_02_1");
+    var entity = service.findById("_01_1");
+    assertEquals(entity.getId(), "_01_1");
     assertEquals(entity.message(), message);
     assertEquals(entity.getPath().toString(), "src/main/java/" + classPath);
 
@@ -44,8 +45,8 @@ class _02_OperationPriorityTests {
 
   @Test
   void testRegistration2() {
-    var message = "com.example.mistakes.expression._02_OperationPriority.Ex2";
-    var classPath = "com/example/mistakes/expression/_02_OperationPriority.java";
+    var message = "com.example.mistakes.expression._01_OperationPriority.Ex2";
+    var classPath = "com/example/mistakes/expression/_01_OperationPriority.java";
     var before = "int before() { return xmin + ymin << 8 + xmax << 16 + ymax << 24; }";
     var after = "int after() { return xmin + (ymin << 8) + (xmax << 16) + (ymax << 24); }";
 
@@ -57,10 +58,10 @@ class _02_OperationPriorityTests {
     // System.out.println(entity.getBefore());
     // System.out.println(entity.getAfter());
 
-    var entity = service.findById("_02_2");
+    var entity = service.findById("_01_2");
     // var entity = service.find(2, 2);
     assertEquals(entity.message(), message);
-    assertEquals(entity.getId(), "_02_2");
+    assertEquals(entity.getId(), "_01_2");
     assertEquals(entity.getPath().toString(), "src/main/java/" + classPath);
 
     assertTrue(normalize(entity.getBefore()).contains(before));
@@ -70,7 +71,7 @@ class _02_OperationPriorityTests {
   @ParameterizedTest
   @MethodSource("dualCombinations")
   void testEx1(short lo, short hi) {
-    var target = new _02_OperationPriority.Ex1();
+    var target = new _01_OperationPriority.Ex1();
     int expected = lo * (int) Math.pow(2, 16) + hi;
     assertEquals(expected, target.after(lo, hi), "Test failed with lo=%d hi=%d".formatted(lo, hi));
   }
@@ -82,7 +83,7 @@ class _02_OperationPriorityTests {
 
   @Test
   void testEx2() {
-    var target = new _02_OperationPriority.Ex2();
+    var target = new _01_OperationPriority.Ex2();
 
     printBinary(1);
     printBinary(1 + 1);
@@ -107,7 +108,7 @@ class _02_OperationPriorityTests {
 
   @Test
   void testEx3() {
-    var target = new _02_OperationPriority.Ex3();
+    var target = new _01_OperationPriority.Ex3();
 
     assertEquals(target.before(), target.BLOCK_SIZE * 0.5);
     assertEquals(target.after(), target.BLOCK_SIZE * 1.25);
@@ -115,7 +116,7 @@ class _02_OperationPriorityTests {
 
   @Test
   void testEx4() {
-    var target = new _02_OperationPriority.Ex4();
+    var target = new _01_OperationPriority.Ex4();
     var input = 0x0FF0;
 
     printBinary(input, 16);
