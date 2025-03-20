@@ -3,7 +3,6 @@ package com.example.mistakes.expression;
 import static java.util.Objects.requireNonNullElse;
 
 import com.example.mistakes.QuestionEntityBuilder;
-import com.example.mistakes.api.questions.QuestionEntity;
 import com.example.mistakes.service.QuestionService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +11,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class _02_MissingParentheses {
 
-  _02_MissingParentheses(@Autowired QuestionService<QuestionEntity> service) {
-    service.add(new QuestionEntityBuilder<Ex1>().build(Ex1.class));
-    service.add(new QuestionEntityBuilder<Ex2>().build(Ex2.class));
-    service.add(new QuestionEntityBuilder<Ex3>().build(Ex3.class));
-    service.add(new QuestionEntityBuilder<Ex4>().build(Ex4.class));
+  _02_MissingParentheses(@Autowired QuestionService service) {
+    var entities = QuestionEntityBuilder.of(Ex1.class, Ex2.class, Ex3.class, Ex4.class);
+    service.addAll(entities);
   }
 
   static class Ex1 {
