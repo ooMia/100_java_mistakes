@@ -1,5 +1,6 @@
 package com.example.mistakes.api.questions;
 
+import com.example.mistakes.base.template.ResponseManyDTO;
 import com.example.mistakes.base.type.FsMeta;
 import com.example.mistakes.base.type.Identifiable;
 import com.example.mistakes.base.type.Message;
@@ -13,6 +14,12 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.extern.log4j.Log4j2;
+
+final class ResClassQuestion extends ResponseManyDTO<QuestionEntity> {
+  ResClassQuestion(Iterable<QuestionEntity> result) {
+    super(result);
+  }
+}
 
 // TODO: refactor to class
 @Log4j2
@@ -42,7 +49,7 @@ public record QuestionEntity(String message) implements Message, Identifiable<St
     if (matcher.find()) {
       String mistakeId = matcher.group(1);
       String index = matcher.group(2);
-      return "_%s_%s".formatted(mistakeId, index);
+      return "%s_%s_%s".formatted(chapter, mistakeId, index);
     }
 
     // legacy: return 1 when got `com/example/mistakes/expression/_01_OperationPriority.java`
