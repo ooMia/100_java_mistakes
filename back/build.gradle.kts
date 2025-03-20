@@ -41,9 +41,8 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok")
     testAnnotationProcessor("org.projectlombok:lombok")
 
-    // Document RESTful services by combining hand-written with Asciidoctor
-    // and auto-generated snippets produced with Spring MVC Test
-    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+  // SpringDoc OpenAPI UI for REST API documentation
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
 
     // Spring Data base dependency without any database-specific functionality
     implementation("org.springframework.data:spring-data-commons")

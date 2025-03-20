@@ -1,4 +1,5 @@
 {
+  // https://code.visualstudio.com/docs/java/java-debugging
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.compile.nullAnalysis.mode": "automatic",
   "java.dependency.syncWithFolderExplorer": true,
@@ -8,7 +9,9 @@
   },
   "java.completion.favoriteStaticMembers": [
     "org.hamcrest.Matchers.*",
+    "org.junit.jupiter.api.*",
     "org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*",
     "org.springframework.test.web.servlet.result.MockMvcResultMatchers.*"
-  ]
+  ],
+  "java.debug.settings.hotCodeReplace": "manual" // change to "auto" if you want to enable
 }

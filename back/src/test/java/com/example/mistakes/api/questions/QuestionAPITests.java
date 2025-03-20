@@ -14,13 +14,13 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class QuestionAPITests {
+class QuestionAPITests {
 
   @Autowired private MockMvc mockMvc;
 
-  public void testGetQuestion() throws Exception {
+  void testGetQuestion() throws Exception {
     mockMvc
-        .perform(get("/api/questions/t1").accept(MediaType.APPLICATION_JSON))
+        .perform(get("/api/questions/t3").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.result").exists())

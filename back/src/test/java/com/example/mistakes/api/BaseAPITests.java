@@ -1,6 +1,7 @@
 package com.example.mistakes.api;
 
 import static org.hamcrest.Matchers.greaterThan;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -8,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
@@ -28,53 +30,17 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
-public class BaseAPITests {
+class BaseAPITests {
 
   @Autowired private MockMvc mockMvc;
   @Autowired private RequestMappingHandlerMapping handlerMapping;
-
-  private ResultMatcher[] matchers() {
-    return new ResultMatcher[] {
-      status().isOk(),
-      content().contentType(MediaType.APPLICATION_JSON),
-      jsonPath("$.result").exists(),
-      jsonPath("$.length").value(greaterThan(0))
-    };
-  }
-
-  @Test
-  public void testOneStatic() throws Exception {
-    mockMvc.perform(get("/api/questions/t1")).andExpectAll(matchers());
-  }
-
-  @Test
-  public void testSomeStatic() throws Exception {
-    Iterable<String> apis =
-        List.of(
-            // "/api/hello",
-            "/api/questions/t1", "/api/questions/t2");
-    for (String api : apis) {
-      mockMvc.perform(get(api)).andExpectAll(matchers());
-    }
-  }
-
-  @TestFactory
-  // testSingleDynamic()
-  public Stream<DynamicTest> testSomeStaticAsFactory() {
-    var urls = List.of("/api/questions/t1", "/api/questions/t2");
-    return urls.parallelStream()
-        .map(
-            url ->
-                DynamicTest.dynamicTest(
-                    url, () -> mockMvc.perform(get(url)).andExpectAll(matchers())));
-  }
 
   /**
    * Extract `GET /api/**` endpoints from handlerMapping
    *
    * @return List of endpoints
    */
-  private List<String> getEndpoints() {
+  List<String> getEndpoints() {
 
     var keys = handlerMapping.getHandlerMethods().keySet().stream().toList();
 
@@ -104,17 +70,50 @@ public class BaseAPITests {
     return endpoints;
   }
 
+  @Test
+  void testEndPoints() {
+    List<String> endpoints =
+        List.of(
+            "/error",
+            // swagger
+            "/v3/api-docs.yaml",
+            "/v3/api-docs",
+            "/v3/api-docs/swagger-config",
+            "/swagger-ui.html",
+            // examples
+            "/api/examples/",
+            "/api/examples/{id}",
+            // chapters
+            "/api/{chapterName}/{mistakeId}/{exampleId}",
+            "/api/{chapterName}",
+            "/api/{chapterName}/{mistakeId}",
+            // legacy
+            "/api/hello");
+
+    assertEquals(Set.copyOf(endpoints), Set.copyOf(getEndpoints()));
+  }
+
   @TestFactory
-  public Stream<DynamicTest> testSomeDynamicAsFactory() {
-    var urls = List.of("/api/questions/t1", "/api/questions/t2");
-    var endpoints = getEndpoints();
-    assert endpoints.containsAll(urls);
+  Stream<DynamicTest> testSomeDynamicAsFactory() {
+    var matchers =
+        new ResultMatcher[] {
+          status().isOk(),
+          content().contentType(MediaType.APPLICATION_JSON),
+          jsonPath("$.result").exists(),
+          jsonPath("$.length").value(greaterThan(0))
+        };
 
     return getEndpoints().stream()
-        .filter(e -> e.startsWith("/api/questions"))
+        .filter(e -> e.startsWith("/api") && !e.equals("/api/hello"))
         .map(
-            url ->
-                DynamicTest.dynamicTest(
-                    url, () -> mockMvc.perform(get(url)).andExpectAll(matchers())));
+            url -> {
+              String requestUrl =
+                  url.replace("examples/{id}", "examples/2")
+                      .replace("{chapterName}", "expression")
+                      .replace("{mistakeId}", "2")
+                      .replace("{exampleId}", "2");
+              return DynamicTest.dynamicTest(
+                  url, () -> mockMvc.perform(get(requestUrl)).andExpectAll(matchers));
+            });
   }
 }

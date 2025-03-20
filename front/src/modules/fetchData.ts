@@ -1,10 +1,16 @@
 interface Response {
   message?: string;
-  result?: any;
+  result?: {
+    id: number;
+    message: string;
+    before: string;
+    after: string;
+    path: string;
+  }[];
   length?: number;
 }
 
-export async function fetchWithRetry(
+async function _fetchWithRetry(
   url: string,
   retriesLeft: number,
   maxRetries: number = 3,
@@ -21,7 +27,7 @@ export async function fetchWithRetry(
 
     console.log(`Retrying... (${maxRetries - retriesLeft + 1}/${maxRetries})`);
     await new Promise((resolve) => setTimeout(resolve, delayMs));
-    return fetchWithRetry(url, retriesLeft - 1);
+    return _fetchWithRetry(url, retriesLeft - 1);
   }
 }
 
@@ -34,7 +40,9 @@ export async function fetchDataWithRetry(
   let data = { message: "No Data" };
   let message = "No Data";
   try {
-    data = await fetchWithRetry(`${baseUrl}/${apiPath}`, maxRetries, delayMs);
+    const url = `${baseUrl}/${apiPath}`;
+    console.log(`Fetching data from ${url}`);
+    data = await _fetchWithRetry(url, maxRetries, delayMs);
     message = data.message || "Data Loaded Successfully";
   } catch (error) {
     if (error instanceof Error) {

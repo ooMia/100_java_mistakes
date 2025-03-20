@@ -14,12 +14,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class HelloAPITests {
+class HelloAPITests {
 
   @Autowired private MockMvc mockMvc;
 
   @Test
-  public void testHelloEndpoint() throws Exception {
+  void testHelloEndpoint() throws Exception {
     mockMvc
         .perform(get("/api/hello"))
         .andExpect(status().isOk())
