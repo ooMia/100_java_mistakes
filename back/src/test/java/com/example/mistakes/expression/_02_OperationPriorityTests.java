@@ -5,10 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.example.mistakes.api.questions.QuestionEntity;
 import com.example.mistakes.service.QuestionService;
-import java.util.Random;
+import java.util.List;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -44,7 +43,7 @@ class _02_OperationPriorityTests {
   }
 
   @Test
-  void testEx2() {
+  void testRegistration2() {
     var message = "com.example.mistakes.expression._02_OperationPriority.Ex2";
     var classPath = "com/example/mistakes/expression/_02_OperationPriority.java";
     var before = "int before() { return xmin + ymin << 8 + xmax << 16 + ymax << 24; }";
@@ -69,23 +68,61 @@ class _02_OperationPriorityTests {
   }
 
   @ParameterizedTest
-  @MethodSource("randomArguments")
-  @DisplayName("Fuzz test with random inputs using ParameterizedTest")
-  void fuzzTest(short lo, short hi) {
+  @MethodSource("dualCombinations")
+  void testEx1(short lo, short hi) {
     var target = new _02_OperationPriority.Ex1();
-    assertEquals(
-        target.after(lo, hi),
-        lo * Math.pow(2, 16) + hi,
-        "Fuzz test failed with lo=%d hi=%d".formatted(lo, hi));
+    int expected = lo * (int) Math.pow(2, 16) + hi;
+    assertEquals(expected, target.after(lo, hi), "Test failed with lo=%d hi=%d".formatted(lo, hi));
   }
 
-  static Stream<Arguments> randomArguments() {
-    Random random = new Random();
-    return Stream.generate(
-            () ->
-                Arguments.of(
-                    (short) random.nextInt(Short.MAX_VALUE),
-                    (short) random.nextInt(Short.MAX_VALUE)))
-        .limit(100);
+  static Stream<Arguments> dualCombinations() {
+    var values = List.of((short) 0, (short) 1, (short) 2, Short.MAX_VALUE);
+    return values.stream().flatMap(lo -> values.stream().map(hi -> Arguments.of(lo, hi)));
+  }
+
+  @Test
+  void testEx2() {
+    var target = new _02_OperationPriority.Ex2();
+
+    printBinary(1);
+    printBinary(1 + 1);
+    printBinary(1 + 1 << 8);
+    printBinary(1 + 1 << 8 + 1);
+    printBinary(1 + 1 << 8 + 1 << 16);
+    printBinary(1 + 1 << 8 + 1 << 16 + 1);
+    printBinary(1 + 1 << 8 + 1 << 16 + 1 << 24);
+    printBinary(target.after());
+
+    assertEquals(target.before(), 0);
+  }
+
+  private static void printBinary(int value) {
+    printBinary(value, 32);
+  }
+
+  private static void printBinary(int value, int length) {
+    System.out.println(
+        String.format("%" + length + "s", Integer.toBinaryString(value)).replace(' ', '0'));
+  }
+
+  @Test
+  void testEx3() {
+    var target = new _02_OperationPriority.Ex3();
+
+    assertEquals(target.before(), target.BLOCK_SIZE * 0.5);
+    assertEquals(target.after(), target.BLOCK_SIZE * 1.25);
+  }
+
+  @Test
+  void testEx4() {
+    var target = new _02_OperationPriority.Ex4();
+    var input = 0x0FF0;
+
+    printBinary(input, 16);
+    printBinary(target.before(input), 16);
+    printBinary(target.after(input), 16);
+
+    assertEquals(target.before(input) % 2, input % 2);
+    assertEquals(target.after(input) % 2, 1);
   }
 }
