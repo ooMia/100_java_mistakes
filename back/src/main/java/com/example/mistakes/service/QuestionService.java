@@ -1,30 +1,27 @@
 package com.example.mistakes.service;
 
+import com.example.mistakes.api.questions.QuestionEntity;
 import java.util.List;
 
-public interface QuestionService<T> {
+public interface QuestionService {
+  // Register
+  void add(QuestionEntity entity);
 
-  void add(T entity);
+  void addAll(Iterable<QuestionEntity> entity);
 
-  List<T> findAll();
+  // find one
+  QuestionEntity findOne(String id);
 
-  T find(Number chapter, Number index);
+  QuestionEntity findOne(String chapterName, Integer mistakeId, Integer exampleId);
 
-  // 1. query by question id
-  T findById(String id);
+  QuestionEntity findOne(Integer chapterNumber, Integer mistakeId, Integer exampleId);
 
-  // 2. chapter
-  List<T> findByChapter(String name);
+  // find many
+  List<QuestionEntity> findAll();
 
-  List<T> findByChapter(Number index);
+  List<QuestionEntity> findAllByChapterName(String name);
 
-  // 3. keywords
-  enum ConditionType {
-    AND,
-    OR,
-  }
+  List<QuestionEntity> findAllByChapterNumber(Number number);
 
-  List<T> findByKeywords(String keyword);
-
-  List<T> findByKeywords(Iterable<String> keywords, ConditionType type);
+  List<QuestionEntity> findAllByMistakeId(Number id);
 }

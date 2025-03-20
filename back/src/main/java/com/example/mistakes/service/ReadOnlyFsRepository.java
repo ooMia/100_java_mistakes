@@ -3,16 +3,14 @@ package com.example.mistakes.service;
 import com.example.mistakes.base.type.FsMeta;
 import com.example.mistakes.base.type.Identifiable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
-import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
@@ -26,7 +24,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 class ReadOnlyFsRepository<T extends Identifiable<ID> & FsMeta, ID>
-    implements CrudRepository<T, ID>, QueryByExampleExecutor<T> {
+    implements CrudRepository<T, ID> {
 
   Map<ID, T> data = new HashMap<>();
 
@@ -37,74 +35,41 @@ class ReadOnlyFsRepository<T extends Identifiable<ID> & FsMeta, ID>
   }
 
   @Override
+  public @NonNull <S extends T> Iterable<S> saveAll(@NonNull Iterable<S> entities) {
+    // use parallelStream() if entities came as a Collection and have many elements
+    entities.forEach(this::save);
+    return entities;
+  }
+
+  @Override
   public @NonNull Optional<T> findById(@NonNull ID id) {
     return Optional.ofNullable(data.get(id));
   }
 
   @Override
   public @NonNull Iterable<T> findAll() {
-    return data.values();
+    return List.copyOf(data.values());
   }
 
   @Override
-  public <S extends T> Optional<S> findOne(Example<S> example) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findOne'");
+  public @NonNull Iterable<T> findAllById(@NonNull Iterable<ID> ids) {
+    return StreamSupport.stream(ids.spliterator(), true)
+        .map(id -> data.get(id))
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
   }
 
-  @Override
-  public <S extends T> Iterable<S> findAll(Example<S> example) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-  }
-
-  @Override
-  public <S extends T> Iterable<S> findAll(Example<S> example, Sort sort) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-  }
-
-  @Override
-  public <S extends T> Page<S> findAll(Example<S> example, Pageable pageable) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-  }
-
-  @Override
-  public <S extends T> long count(Example<S> example) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'count'");
-  }
-
-  @Override
-  public <S extends T> boolean exists(Example<S> example) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'exists'");
-  }
-
-  @Override
-  public <S extends T, R> R findBy(
-      Example<S> example, Function<FetchableFluentQuery<S>, R> queryFunction) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findBy'");
-  }
-
-  @Override
-  public <S extends T> Iterable<S> saveAll(Iterable<S> entities) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'saveAll'");
+  public @NonNull Iterable<T> findAllByPattern(@NonNull String regex) {
+    Pattern pattern = Pattern.compile(regex);
+    return data.values().parallelStream()
+        .filter(entity -> pattern.matcher(entity.getId().toString()).matches())
+        .collect(Collectors.toList());
   }
 
   @Override
   public boolean existsById(ID id) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'existsById'");
-  }
-
-  @Override
-  public Iterable<T> findAllById(Iterable<ID> ids) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findAllById'");
   }
 
   @Override

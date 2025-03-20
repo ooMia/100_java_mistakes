@@ -1,7 +1,9 @@
 package com.example.mistakes.service;
 
 import com.example.mistakes.api.questions.QuestionEntity;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +11,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class QuestionServiceImpl implements QuestionService<QuestionEntity> {
+public class QuestionServiceImpl implements QuestionService {
 
   @Autowired private final ReadOnlyFsRepository<QuestionEntity, String> repository;
+
+  Map<String, Integer> chpaterMap = new HashMap<>(Map.of("expression", 2));
+
+  private Integer _convertChapterNameToNumber(String name) throws NoSuchElementException {
+    if (!chpaterMap.containsKey(name)) {
+      throw new NoSuchElementException("Chapter not found: %s".formatted(name));
+    }
+    return chpaterMap.get(name);
+  }
 
   @Override
   public void add(QuestionEntity entity) {
@@ -19,44 +30,51 @@ public class QuestionServiceImpl implements QuestionService<QuestionEntity> {
   }
 
   @Override
-  public QuestionEntity find(Number chapter, Number index) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'find'");
+  public void addAll(Iterable<QuestionEntity> entity) {
+    repository.saveAll(entity);
   }
 
   @Override
-  public QuestionEntity findById(String id) throws NoSuchElementException {
+  public QuestionEntity findOne(String id) {
     return repository.findById(id).orElseThrow();
   }
 
   @Override
+  public QuestionEntity findOne(String chapterName, Integer mistakeId, Integer exampleId) {
+    var chapterNumber = _convertChapterNameToNumber(chapterName);
+    return findOne(chapterNumber, mistakeId, exampleId);
+  }
+
+  @Override
+  public QuestionEntity findOne(Integer chapterNumber, Integer mistakeId, Integer exampleId) {
+    var id = "%d_%02d_%d".formatted(chapterNumber, mistakeId, exampleId);
+    return findOne(id);
+  }
+
+  @Override
   public List<QuestionEntity> findAll() {
-    List<QuestionEntity> res = new java.util.ArrayList<QuestionEntity>();
-    repository.findAll().forEach(res::add);
-    return res;
+    return (List<QuestionEntity>) repository.findAll();
   }
 
   @Override
-  public List<QuestionEntity> findByChapter(String name) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findByChapter'");
+  public List<QuestionEntity> findAllByChapterName(String name) {
+    var chapterNumber = _convertChapterNameToNumber(name);
+    return findAllByChapterNumber(chapterNumber);
   }
 
   @Override
-  public List<QuestionEntity> findByChapter(Number index) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findByChapter'");
+  public List<QuestionEntity> findAllByChapterNumber(Number number) {
+    var regex = "%d_\\d+_\\d+".formatted(number);
+    return _findAllByPattern(regex);
   }
 
   @Override
-  public List<QuestionEntity> findByKeywords(String keyword) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findByKeywords'");
+  public List<QuestionEntity> findAllByMistakeId(Number id) {
+    var regex = "\\d+_%02d_\\d+".formatted(id);
+    return _findAllByPattern(regex);
   }
 
-  @Override
-  public List<QuestionEntity> findByKeywords(Iterable<String> keywords, ConditionType type) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findByKeywords'");
+  private List<QuestionEntity> _findAllByPattern(String regex) {
+    return (List<QuestionEntity>) repository.findAllByPattern(regex);
   }
 }
