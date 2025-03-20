@@ -3,7 +3,6 @@ package com.example.mistakes.expression;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.example.mistakes.api.questions.QuestionEntity;
 import com.example.mistakes.service.QuestionService;
 import java.util.List;
 import java.util.stream.Stream;
@@ -19,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @RequiredArgsConstructor
 class _01_OperationPriorityTests {
 
-  @Autowired private QuestionService<QuestionEntity> service;
+  @Autowired private QuestionService service;
 
   // need post-processing to remove redundant spaces
   // i.g. double-spaces or tab or newline to single space
@@ -34,8 +33,8 @@ class _01_OperationPriorityTests {
     var classPath = "com/example/mistakes/expression/_01_OperationPriority.java";
     var before = "int before(short lo, short hi) { return lo << 16 + hi; }";
     var after = "int after(short lo, short hi) { return (lo << 16) + hi; }";
-    var entity = service.findById("_01_1");
-    assertEquals(entity.getId(), "_01_1");
+    var entity = service.findOne("2_01_1");
+    assertEquals(entity.getId(), "2_01_1");
     assertEquals(entity.message(), message);
     assertEquals(entity.getPath().toString(), "src/main/java/" + classPath);
 
@@ -58,10 +57,10 @@ class _01_OperationPriorityTests {
     // System.out.println(entity.getBefore());
     // System.out.println(entity.getAfter());
 
-    var entity = service.findById("_01_2");
+    var entity = service.findOne("2_01_2");
     // var entity = service.find(2, 2);
     assertEquals(entity.message(), message);
-    assertEquals(entity.getId(), "_01_2");
+    assertEquals(entity.getId(), "2_01_2");
     assertEquals(entity.getPath().toString(), "src/main/java/" + classPath);
 
     assertTrue(normalize(entity.getBefore()).contains(before));

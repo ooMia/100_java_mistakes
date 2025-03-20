@@ -1,6 +1,7 @@
 package com.example.mistakes.api;
 
 import static org.hamcrest.Matchers.greaterThan;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -8,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
@@ -32,15 +34,6 @@ class BaseAPITests {
 
   @Autowired private MockMvc mockMvc;
   @Autowired private RequestMappingHandlerMapping handlerMapping;
-
-  ResultMatcher[] matchers() {
-    return new ResultMatcher[] {
-      status().isOk(),
-      content().contentType(MediaType.APPLICATION_JSON),
-      jsonPath("$.result").exists(),
-      jsonPath("$.length").value(greaterThan(0))
-    };
-  }
 
   /**
    * Extract `GET /api/**` endpoints from handlerMapping
@@ -78,37 +71,49 @@ class BaseAPITests {
   }
 
   @Test
-  void testLogEndpoints() {
-    log.info("Endpoints: {}", getEndpoints());
-    // [
-    // /v3/api-docs, /v3/api-docs.yaml, /error, /v3/api-docs/swagger-config, /error,
-    // /swagger-ui.html,
-    // /api/questions/t3,
-    // /api/questions/{id}, /api/hello, /api/expression/{index}]
+  void testEndPoints() {
+    List<String> endpoints =
+        List.of(
+            "/error",
+            // swagger
+            "/v3/api-docs.yaml",
+            "/v3/api-docs",
+            "/v3/api-docs/swagger-config",
+            "/swagger-ui.html",
+            // examples
+            "/api/examples/",
+            "/api/examples/{id}",
+            // chapters
+            "/api/{chapterName}/{mistakeId}/{exampleId}",
+            "/api/{chapterName}",
+            "/api/{chapterName}/{mistakeId}",
+            // legacy
+            "/api/hello");
+
+    assertEquals(Set.copyOf(endpoints), Set.copyOf(getEndpoints()));
   }
 
   @TestFactory
   Stream<DynamicTest> testSomeDynamicAsFactory() {
-    List<String> endpoints =
-        List.of(
-            "/api/questions/t3", "/api/questions/{id}", "/api/hello", "/api/expression/{index}");
-
-    assert endpoints.containsAll(endpoints);
+    var matchers =
+        new ResultMatcher[] {
+          status().isOk(),
+          content().contentType(MediaType.APPLICATION_JSON),
+          jsonPath("$.result").exists(),
+          jsonPath("$.length").value(greaterThan(0))
+        };
 
     return getEndpoints().stream()
         .filter(e -> e.startsWith("/api") && !e.equals("/api/hello"))
         .map(
             url -> {
-              String requestUrl = url.replace("{id}", "2").replace("{index}", "2");
+              String requestUrl =
+                  url.replace("examples/{id}", "examples/2")
+                      .replace("{chapterName}", "expression")
+                      .replace("{mistakeId}", "2")
+                      .replace("{exampleId}", "2");
               return DynamicTest.dynamicTest(
-                  url, () -> mockMvc.perform(get(requestUrl)).andExpectAll(matchers()));
+                  url, () -> mockMvc.perform(get(requestUrl)).andExpectAll(matchers));
             });
-
-    // return getEndpoints().stream()
-    //     .filter(e -> e.startsWith("/api/questions"))
-    //     .map(
-    //         url ->
-    //             DynamicTest.dynamicTest(
-    //                 url, () -> mockMvc.perform(get(url)).andExpectAll(matchers())));
   }
 }
