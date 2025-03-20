@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.extern.log4j.Log4j2;
@@ -25,25 +26,17 @@ final class ResClassQuestion extends ResponseManyDTO<QuestionEntity> {
 @Log4j2
 public record QuestionEntity(String message) implements Message, Identifiable<String>, FsMeta {
 
-  public Number getChapter() {
-    var data = new HashMap<String, Number>();
-    data.put("expression", 2);
 
+  private static Map<String, Integer> chapterMap = new HashMap<>(Map.of("expression", 2));
+  public Integer getChapter() {
     var topLevelPackage = message.split("\\.")[3];
-
-    return data.getOrDefault(topLevelPackage, 0);
+    return chapterMap.getOrDefault(topLevelPackage, 0);
   }
 
   public String getId() {
-    // TODO: refactor using getChapter()
-    var data = new HashMap<String, Number>();
-    data.put("expression", 2);
     var topLevelPackage = message.split("\\.")[3];
-    var chapter = data.getOrDefault(topLevelPackage, 0);
+    var chapter = chapterMap.getOrDefault(topLevelPackage, 0);
 
-    // new: return 1-2 when got _01_OperationPriority
-    // when getting `com.example.mistakes.expression._01_OperationPriority.Ex2`
-    // return id = "_01_2"
     Pattern pattern = Pattern.compile("_(\\d+)_\\S+(\\d+)");
     Matcher matcher = pattern.matcher(message);
     if (matcher.find()) {

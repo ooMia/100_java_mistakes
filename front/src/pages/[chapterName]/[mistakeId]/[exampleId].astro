@@ -7,19 +7,26 @@ import { endpoints } from "@/modules/getEndpoints";
 export function getStaticPaths() {
   return endpoints.map((e) => {
     return {
-      params: { subject: e.subject, id: e.id },
+      params: {
+        chapterName: e.chapterName,
+        mistakeId: e.mistakeId,
+        exampleId: e.exampleId,
+      },
     };
   });
 }
+
 const prefix = "api";
-const { subject, id } = Astro.params;
+const { chapterName, mistakeId, exampleId } = Astro.params;
+const url = `${prefix}/${chapterName}/${mistakeId}/${exampleId}`;
+console.log(url);
 ---
 
 <GlobalStyles />
 <Layout>
   <ApiDataLayout
-    apiPath=`${prefix}/${subject}/${id}`
+    apiPath={url}
     title=`Fetch API`
-    description=`Question fetched from API endpoint ${prefix}/${subject}/${id}`
+    description=`Question fetched from API endpoint ${url}`
   />
 </Layout>

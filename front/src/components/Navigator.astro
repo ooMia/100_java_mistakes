@@ -1,23 +1,6 @@
 ---
-import { endpoints } from "../modules/getEndpoints";
+import { urlList } from "../modules/getEndpoints";
 import Anchor from "./core/Anchor.astro";
-
-// 숫자로 끝나는 주제별 첫 페이지만 필터링 & 중복 제거
-const uniqueSubjects = new Set();
-const filteredEndpoints = endpoints.filter((endpoint) => {
-  // 숫자가 아닌 ID는 항상 포함 (예: 't3')
-  if (isNaN(Number(endpoint.id))) {
-    return true;
-  }
-
-  // 숫자인 경우 각 주제의 첫 번째 페이지만 포함
-  if (!uniqueSubjects.has(endpoint.subject) && endpoint.id === "1") {
-    uniqueSubjects.add(endpoint.subject);
-    return true;
-  }
-
-  return false;
-});
 ---
 
 <div id='main-nav' class='container'>
@@ -26,12 +9,9 @@ const filteredEndpoints = endpoints.filter((endpoint) => {
       <Anchor href='/' text='🏠' />
     </li>
     {
-      filteredEndpoints.map((endpoint) => (
+      urlList.map((url) => (
         <li>
-          <Anchor
-            href={`/${endpoint.subject}/${endpoint.id}`}
-            text={`${endpoint.subject} ${!isNaN(Number(endpoint.id)) ? "" : endpoint.id}`}
-          />
+          <Anchor href={`/${url}/1`} text={url} />
         </li>
       ))
     }

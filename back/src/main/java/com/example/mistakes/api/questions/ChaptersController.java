@@ -34,7 +34,7 @@ public class ChaptersController {
   @GetMapping("/{chapterName}/{mistakeId}")
   public ResponseEntity<ResponseMany<QuestionEntity>> getExamplesInMistake(
       @PathVariable String chapterName, @PathVariable Integer mistakeId) {
-    final var data = this.service.findAllByChapterName(chapterName);
+    final var data = this.service.findAllByMistakeId(mistakeId);
     return _response(data);
   }
 
