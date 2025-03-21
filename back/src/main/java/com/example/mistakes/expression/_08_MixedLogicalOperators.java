@@ -15,6 +15,8 @@ public class _08_MixedLogicalOperators {
   }
 
   static class Ex1 {
+    // throw exception if value is not in range [0, 255]
+
     void before(int byteValue) {
       if (byteValue < 0 && byteValue > 255) {
         throw new IllegalArgumentException("byteValue is out of range");
@@ -29,6 +31,9 @@ public class _08_MixedLogicalOperators {
   }
 
   static class Ex2 {
+    // return true if all bytes are printable ASCII characters [0x20, 0x7E]
+    // except for tab(\t) and newline(\n)
+
     boolean before(byte[] array) {
       for (byte b : array) {
         char c = (char) (b & 0xFF);
@@ -51,20 +56,21 @@ public class _08_MixedLogicalOperators {
   }
 
   static class Ex3 {
+    // return true if not a comment
+
     boolean before(String line) {
-      // return true if not a comment
       return !line.startsWith("#") || !line.startsWith("//");
     }
 
     boolean after(String line) {
-      // return true if not a comment
       return !line.startsWith("#") && !line.startsWith("//");
     }
   }
 
   static class Ex4 {
+    // throw exception if value is not in range [10, 20]
+
     void before(int value) {
-      // throw exception if value is not in range [10, 20]
       int abs = Math.abs(value);
       if (abs < 10 && abs > 20) {
         throw new IllegalArgumentException();
@@ -72,7 +78,6 @@ public class _08_MixedLogicalOperators {
     }
 
     void after(int value) {
-      // throw exception if value is not in range [10, 20]
       int abs = Math.abs(value);
       if (abs < 10 || abs > 20) {
         throw new IllegalArgumentException();

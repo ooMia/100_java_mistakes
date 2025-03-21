@@ -15,14 +15,13 @@ public class _03_StringConcatenation {
   }
 
   static class Ex1 {
-
     String before(int index) {
       return "Entry#" + index + 1;
     }
 
     String after(int index) {
-      int adjustInedx = index + 1;
-      return "Entry#" + adjustInedx;
+      int adjustIndex = index + 1;
+      return "Entry#" + adjustIndex;
     }
   }
 }

@@ -15,7 +15,6 @@ public class _07_NonShortCircuitOperator {
   }
 
   static class Ex1 {
-
     boolean before(int[] data, int index) {
       return index >= 0 && index < data.length & data[index] > 0;
     }
@@ -26,52 +25,48 @@ public class _07_NonShortCircuitOperator {
   }
 
   static class Ex2 {
+    // @formatter:off
+    int count = 0;
 
-    boolean before(boolean check1, boolean check2, boolean check3) {
+    boolean check1() { count++; return false; }
+    boolean check2() { count++; return false; }
+    boolean check3() { count++; return false; }
+    // @formatter:on
+
+    boolean before() {
       boolean result = true;
-      result &= check1;
-      result &= check2;
-      result &= check3;
+      result &= check1();
+      result &= check2();
+      result &= check3();
       return result;
     }
 
-    boolean after(boolean check1, boolean check2, boolean check3) {
+    boolean after() {
       boolean result = true;
-      result = result && check1;
-      result = result && check2;
-      result = result && check3;
+      result = result && check1();
+      result = result && check2();
+      result = result && check3();
       return result;
     }
   }
 
   static class Ex3 {
+    // @formatter:off
+    interface First {}
+    interface Second {}
+    interface Third {}
+    interface Exclude extends Second {}
 
-    interface First {
-    }
-
-    interface Second {
-    }
-
-    interface Third {
-    }
-
-    interface Exclude extends Second {
-    }
-
-    static boolean checkFirst(First obj) {
-      return true;
-    }
-
-    static boolean checkThird(Third obj) {
-      return true;
-    }
+    static boolean checkFirst(First obj) { return obj instanceof First; }
+    static boolean checkThird(Third obj) { return obj instanceof Third; }
+    // @formatter:on
 
     boolean before(Object obj) {
       return obj instanceof First && checkFirst((First) obj) |
           obj instanceof Second && !(obj instanceof Exclude) ||
           obj instanceof Third && checkThird((Third) obj);
     }
-  
+
     boolean after(Object obj) {
       return switch (obj) { // Java 21
         case First first -> checkFirst(first);

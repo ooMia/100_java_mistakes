@@ -15,7 +15,6 @@ public class _04_MultilineStringLiteral {
   }
 
   static class Ex1 {
-
     String before(String userName) {
       String greetingPage = "<html>\n"
           + "  <head><title>Welcome</title></head>\n"

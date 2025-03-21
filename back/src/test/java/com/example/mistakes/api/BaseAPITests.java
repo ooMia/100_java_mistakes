@@ -2,6 +2,7 @@ package com.example.mistakes.api;
 
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -27,6 +28,8 @@ import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import com.example.mistakes.service.QuestionService;
+
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest
@@ -38,6 +41,8 @@ class BaseAPITests {
   private MockMvc mockMvc;
   @Autowired
   private RequestMappingHandlerMapping handlerMapping;
+  @Autowired
+  private QuestionService service;
 
   /**
    * Extract `GET /api/**` endpoints from handlerMapping
@@ -52,13 +57,11 @@ class BaseAPITests {
       if (info == null) {
         return Collections.emptySet().toString();
       }
-
       // Try path patterns first
       PathPatternsRequestCondition pathPatterns = info.getPathPatternsCondition();
       if (pathPatterns != null) {
         return pathPatterns.getPatternValues().toArray()[0].toString();
       }
-
       // Fall back to legacy patterns
       PatternsRequestCondition patterns = info.getPatternsCondition();
       if (patterns != null) {
@@ -115,5 +118,41 @@ class BaseAPITests {
               return DynamicTest.dynamicTest(
                   url, () -> mockMvc.perform(get(requestUrl)).andExpectAll(matchers));
             });
+  }
+
+  private String _normalize(String code) {
+    return code.replaceAll("\\s+", " ");
+  }
+
+  @Test
+  void testRegistration() {
+    var message = "com.example.mistakes.expression._01_OperationPriority.Ex1";
+    var classPath = "com/example/mistakes/expression/_01_OperationPriority.java";
+    var before = "int before(short lo, short hi) { return lo << 16 + hi; }";
+    var after = "int after(short lo, short hi) { return (lo << 16) + hi; }";
+    var entity = service.findOne("2_01_1");
+
+    assertEquals(entity.getId(), "2_01_1");
+    assertEquals(entity.message(), message);
+    assertEquals(entity.getPath().toString(), "src/main/java/" + classPath);
+
+    assertTrue(_normalize(entity.getBefore()).contains(before));
+    assertTrue(_normalize(entity.getAfter()).contains(after));
+  }
+
+  @Test
+  void testRegistration2() {
+    var message = "com.example.mistakes.expression._01_OperationPriority.Ex2";
+    var classPath = "com/example/mistakes/expression/_01_OperationPriority.java";
+    var before = "int before() { return xmin + ymin << 8 + xmax << 16 + ymax << 24; }";
+    var after = "int after() { return xmin + (ymin << 8) + (xmax << 16) + (ymax << 24); }";
+    var entity = service.findOne("2_01_2");
+
+    assertEquals(message, entity.message());
+    assertEquals("2_01_2", entity.getId());
+    assertEquals("src/main/java/" + classPath, entity.getPath().toString());
+
+    assertTrue(_normalize(entity.getBefore()).contains(before));
+    assertTrue(_normalize(entity.getAfter()).contains(after));
   }
 }

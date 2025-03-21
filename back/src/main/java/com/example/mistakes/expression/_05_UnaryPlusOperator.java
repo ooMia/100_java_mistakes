@@ -15,7 +15,6 @@ public class _05_UnaryPlusOperator {
   }
 
   static class Ex1 {
-
     String before(String userName) {
       /* @formatter:off */ 
       return "User not found: " +
@@ -29,7 +28,6 @@ public class _05_UnaryPlusOperator {
   }
 
   static class Ex2 {
-
     int before(int x, int y) {
       /* @formatter:off */ 
       return x =+ y;

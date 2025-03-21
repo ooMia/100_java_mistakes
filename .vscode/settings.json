@@ -5,8 +5,9 @@
   "java.dependency.syncWithFolderExplorer": true,
   "java.project.explorer.showNonJavaResources": true,
   "java.completion.favoriteStaticMembers": [
-    "org.hamcrest.Matchers.*",
     "org.junit.jupiter.api.*",
+    "org.junit.jupiter.api.Assertions.*",
+    "org.hamcrest.Matchers.*",
     "org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*",
     "org.springframework.test.web.servlet.result.MockMvcResultMatchers.*"
   ],
