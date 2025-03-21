@@ -1,0 +1,83 @@
+---
+// 현재 URL을 가져와서 경로를 분석합니다
+const url = Astro.url;
+const pathSegments = url.pathname.split("/").filter(Boolean);
+const lastSegment = pathSegments[pathSegments.length - 1];
+
+// 마지막 세그먼트가 숫자인지 확인
+const isNumeric = /^\d+$/.test(lastSegment);
+const currentPage = isNumeric ? parseInt(lastSegment) : null;
+
+// 이전/다음 페이지 URL 생성
+let prevPageUrl, nextPageUrl;
+if (isNumeric && currentPage !== null) {
+  const basePath = pathSegments.slice(0, -1).join("/");
+  prevPageUrl = currentPage > 1 ? `/${basePath}/${currentPage - 1}` : null;
+  nextPageUrl = `/${basePath}/${currentPage + 1}`;
+}
+
+// 내비게이션 버튼이 표시되어야 하는지 결정
+const showNavigation = isNumeric && currentPage !== null;
+---
+
+{
+  showNavigation && (
+    <div class='page-navigation'>
+      <div class='button-container'>
+        {prevPageUrl ? (
+          <a href={prevPageUrl} class='nav-button prev-button'>
+            Prev
+          </a>
+        ) : (
+          <button disabled class='nav-button prev-button disabled'>
+            Prev
+          </button>
+        )}
+
+        <span class='current-page'>Page {currentPage}</span>
+
+        <a href={nextPageUrl} class='nav-button next-button'>
+          Next
+        </a>
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .page-navigation {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .button-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .nav-button {
+    user-select: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+    background-color: #f5f5f5;
+    transition: background-color 0.2s;
+  }
+
+  .nav-button:hover:not(.disabled) {
+    background-color: #e0e0e0;
+  }
+
+  .disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .current-page {
+    font-weight: 500;
+  }
+</style>

@@ -13,7 +13,7 @@
       "name": "Gradle Test Watch",
       "cwd": "${workspaceFolder}/back",
       "type": "node-terminal",
-      "command": "./gradlew test -t --watch-fs --daemon --build-cache --parallel",
+      "command": "./gradlew test -t --watch-fs --info",
       "request": "launch"
     },
     {

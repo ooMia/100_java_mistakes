@@ -1,6 +1,6 @@
 package com.example.mistakes.api.hello;
 
-import com.example.mistakes.base.MessageDTO;
+import com.example.mistakes.base.type.Message;
 
-public record HelloDTO(String message) implements MessageDTO {
-}
+@Deprecated
+public record HelloDTO(String message) implements Message {}
