@@ -56,14 +56,24 @@ title = message
     code={data}
     lang='json'
   />
-  <CodeCard title='before' summary='before' code={before} lang='java' />
-  <CodeCard title='after' summary='after' code={after} lang='java' />
-
+  <div>
+    <CodeCard title='before' summary='before' code={before} lang='java' />
+    <CodeCard title='after' summary='after' code={after} lang='java' />
+  </div>
   <PageHandler />
 </div>
 
 <style>
+  .container > div:has(code) {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
   .container {
+    margin: 3rem;
+    padding: 3rem;
+
     background: linear-gradient(145deg, #1a1e2e, #4facfe);
     animation: fadeIn 1s ease-out forwards;
 
@@ -80,6 +90,9 @@ title = message
   }
 
   .info-box {
+    margin: 3rem;
+    padding: 3rem;
+
     max-width: 600px;
     border-left: 6px solid #4facfe;
     background: rgba(20, 30, 60, 0.5);
