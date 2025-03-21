@@ -2,11 +2,13 @@ package com.example.mistakes.expression;
 
 import static java.util.Objects.requireNonNullElse;
 
-import com.example.mistakes.QuestionEntityBuilder;
-import com.example.mistakes.service.QuestionService;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.example.mistakes.QuestionEntityBuilder;
+import com.example.mistakes.service.QuestionService;
 
 @Component
 public class _02_MissingParentheses {
@@ -19,11 +21,11 @@ public class _02_MissingParentheses {
   static class Ex1 {
     String subContext = "Logical operator precedence";
 
-    Boolean before(int index, String str) {
+    boolean before(int index, String str) {
       return index >= 0 && str.charAt(index) == ' ' || str.charAt(index) == '\t';
     }
 
-    Boolean after(int index, String str) {
+    boolean after(int index, String str) {
       return index >= 0 && (str.charAt(index) == ' ' || str.charAt(index) == '\t');
     }
   }

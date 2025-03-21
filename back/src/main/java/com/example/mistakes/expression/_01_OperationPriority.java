@@ -1,9 +1,10 @@
 package com.example.mistakes.expression;
 
-import com.example.mistakes.QuestionEntityBuilder;
-import com.example.mistakes.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.example.mistakes.QuestionEntityBuilder;
+import com.example.mistakes.service.QuestionService;
 
 @Component
 public class _01_OperationPriority {

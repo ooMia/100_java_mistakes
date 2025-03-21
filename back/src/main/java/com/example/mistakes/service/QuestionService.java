@@ -1,7 +1,8 @@
 package com.example.mistakes.service;
 
-import com.example.mistakes.api.questions.QuestionEntity;
 import java.util.List;
+
+import com.example.mistakes.api.questions.QuestionEntity;
 
 public interface QuestionService {
   // Register
@@ -12,9 +13,9 @@ public interface QuestionService {
   // find one
   QuestionEntity findOne(String id);
 
-  QuestionEntity findOne(String chapterName, Integer mistakeId, Integer exampleId);
+  QuestionEntity findOne(String chapterName, int mistakeId, int exampleId);
 
-  QuestionEntity findOne(Integer chapterNumber, Integer mistakeId, Integer exampleId);
+  QuestionEntity findOne(int chapterNumber, int mistakeId, int exampleId);
 
   // find many
   List<QuestionEntity> findAll();
