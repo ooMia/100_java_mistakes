@@ -13,9 +13,9 @@
    - [x] &&, ||의 우선순위 LogicalOperatorPrecedence
    - [x] 조건 연산자와 덧셈 TernaryWithAddition
    - [x] 조건 연산자와 null 검사 TernaryWithNullCheck
-3. [ ] 덧셈이 아닌 결합으로 작동 StringConcatenation
-4. [ ] 멀티라인 문자열 리터럴 MultilineStringLiteral
-5. [ ] 단항 덧셈 연산자 UnaryPlusOperator
+3. [x] 덧셈이 아닌 결합으로 작동 StringConcatenation
+4. [x] 멀티라인 문자열 리터럴 MultilineStringLiteral
+5. [x] 단항 덧셈 연산자 UnaryPlusOperator
 6. [ ] 조건 표현식의 묵시적 타입 변환 ImplicitTypeConversion
    - [ ] 조건 표현식의 박싱된 숫자 BoxedNumberConditional
    - [ ] 중첩 조건 표현식 NestedConditional

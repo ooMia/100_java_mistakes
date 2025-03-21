@@ -1,7 +1,8 @@
 package com.example.mistakes.service;
 
-import com.example.mistakes.api.questions.QuestionEntity;
 import java.util.List;
+
+import com.example.mistakes.api.questions.QuestionEntity;
 
 public interface QuestionService {
   // Register

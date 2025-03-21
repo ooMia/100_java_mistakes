@@ -1,19 +1,23 @@
 package com.example.mistakes.service;
 
-import com.example.mistakes.api.questions.QuestionEntity;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.mistakes.api.questions.QuestionEntity;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
 
-  @Autowired private final ReadOnlyFsRepository<QuestionEntity, String> repository;
+  @Autowired
+  private final ReadOnlyFsRepository<QuestionEntity, String> repository;
 
   Map<String, Integer> chpaterMap = new HashMap<>(Map.of("expression", 2));
 

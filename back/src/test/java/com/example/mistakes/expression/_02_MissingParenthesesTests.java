@@ -7,9 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-import lombok.RequiredArgsConstructor;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import lombok.RequiredArgsConstructor;
 
 @SpringBootTest
 @RequiredArgsConstructor
@@ -53,7 +55,7 @@ class _02_MissingParenthesesTests {
 
     assertEquals(target.before(init, null), 1);
     assertEquals(target.before(init, "d"), 1);
-    
+
     assertEquals(target.after(init, null), 3);
     assertEquals(target.after(init, "d"), 4);
   }
