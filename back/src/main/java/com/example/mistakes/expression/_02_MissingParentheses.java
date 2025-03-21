@@ -21,11 +21,11 @@ public class _02_MissingParentheses {
   static class Ex1 {
     String subContext = "Logical operator precedence";
 
-    Boolean before(int index, String str) {
+    boolean before(int index, String str) {
       return index >= 0 && str.charAt(index) == ' ' || str.charAt(index) == '\t';
     }
 
-    Boolean after(int index, String str) {
+    boolean after(int index, String str) {
       return index >= 0 && (str.charAt(index) == ' ' || str.charAt(index) == '\t');
     }
   }

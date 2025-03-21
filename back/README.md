@@ -16,11 +16,11 @@
 3. [x] 덧셈이 아닌 결합으로 작동 StringConcatenation
 4. [x] 멀티라인 문자열 리터럴 MultilineStringLiteral
 5. [x] 단항 덧셈 연산자 UnaryPlusOperator
-6. [ ] 조건 표현식의 묵시적 타입 변환 ImplicitTypeConversion
-   - [ ] 조건 표현식의 박싱된 숫자 BoxedNumberConditional
-   - [ ] 중첩 조건 표현식 NestedConditional
-7. [ ] 비단락 논리 연산자 사용 NonShortCircuitOperator
-8. [ ] &&와 || 혼용 MixedLogicalOperators
+6. [x] 조건 표현식의 묵시적 타입 변환 ImplicitTypeConversion
+   - [x] 조건 표현식의 박싱된 숫자 PrimitiveWrappedOnTernary
+   - [x] 중첩 조건 표현식 NestedTernary
+7. [x] 비단락 논리 연산자 사용 NonShortCircuitOperator
+8. [x] &&와 || 혼용 MixedLogicalOperators
 9. [ ] 잘못된 가변 인수 호출 VarArgsIssues
    - [ ] 모호한 가변 인수 호출 AmbiguousVarArgs
    - [ ] 배열과 컬렉션 혼용 ArrayCollectionMixup
