@@ -32,7 +32,7 @@ public class ExamplesController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<ResponseMany<QuestionEntity>> getOneById(@PathVariable("id") Integer id) {
+  public ResponseEntity<ResponseMany<QuestionEntity>> getOneById(@PathVariable("id") int id) {
     final var data = this.service.findAllByMistakeId(id);
     return _response(data);
   }

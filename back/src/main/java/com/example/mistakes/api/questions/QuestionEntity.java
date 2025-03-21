@@ -30,7 +30,7 @@ public record QuestionEntity(String message) implements Message, Identifiable<St
 
   private static Map<String, Integer> chapterMap = new HashMap<>(Map.of("expression", 2));
 
-  public Integer getChapter() {
+  public int getChapter() {
     var topLevelPackage = message.split("\\.")[3];
     return chapterMap.getOrDefault(topLevelPackage, 0);
   }

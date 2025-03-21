@@ -13,9 +13,9 @@ public interface QuestionService {
   // find one
   QuestionEntity findOne(String id);
 
-  QuestionEntity findOne(String chapterName, Integer mistakeId, Integer exampleId);
+  QuestionEntity findOne(String chapterName, int mistakeId, int exampleId);
 
-  QuestionEntity findOne(Integer chapterNumber, Integer mistakeId, Integer exampleId);
+  QuestionEntity findOne(int chapterNumber, int mistakeId, int exampleId);
 
   // find many
   List<QuestionEntity> findAll();
