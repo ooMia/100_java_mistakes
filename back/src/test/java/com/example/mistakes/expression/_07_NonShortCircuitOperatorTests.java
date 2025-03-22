@@ -12,9 +12,7 @@ class _07_NonShortCircuitOperatorTests {
   void testEx1() {
     var target = new _07_NonShortCircuitOperator.Ex1();
 
-    assertThrows(
-        ArrayIndexOutOfBoundsException.class,
-        () -> target.before(new int[] { 1, 2, 3 }, 4));
+    assertThrows(ArrayIndexOutOfBoundsException.class, () -> target.before(new int[] { 1, 2, 3 }, 4));
     assertFalse(target.after(new int[] { 1, 2, 3 }, 4));
   }
 

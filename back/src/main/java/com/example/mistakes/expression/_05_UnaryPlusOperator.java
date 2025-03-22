@@ -15,23 +15,24 @@ public class _05_UnaryPlusOperator {
   }
 
   static class Ex1 {
+    // @formatter:off
     String before(String userName) {
-      /* @formatter:off */ 
       return "User not found: " +
             + '"' + userName + '"';
-      /* @formatter:on */
     }
 
     String after(String userName) {
-      return "User not found: " + '"' + userName + '"';
+      return "User not found: "
+            + '"' + userName + '"';
     }
+    // @formatter:on
   }
 
   static class Ex2 {
     int before(int x, int y) {
-      /* @formatter:off */ 
+      // @formatter:off
       return x =+ y;
-      /* @formatter:on */
+      // @formatter:on
     }
 
     int after(int x, int y) {

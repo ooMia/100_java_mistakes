@@ -46,8 +46,7 @@ class _01_OperationPriorityTests {
   }
 
   private static void printBinary(int value, int length) {
-    System.out.println(
-        String.format("%" + length + "s", Integer.toBinaryString(value)).replace(' ', '0'));
+    System.out.println(String.format("%" + length + "s", Integer.toBinaryString(value)).replace(' ', '0'));
   }
 
   @Test

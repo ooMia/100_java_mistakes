@@ -14,19 +14,25 @@ import com.example.mistakes.service.QuestionService;
 public class _02_MissingParentheses {
 
   _02_MissingParentheses(@Autowired QuestionService service) {
-    var entities = QuestionEntityBuilder.of(Ex1.class, Ex2.class, Ex3.class, Ex4.class);
+    var entities = QuestionEntityBuilder.of(Ex1.class, Ex2.class, Ex3.class,
+        Ex4.class);
     service.addAll(entities);
   }
 
   static class Ex1 {
     String subContext = "Logical operator precedence";
 
+  // @formatter:off
     boolean before(int index, String str) {
-      return index >= 0 && str.charAt(index) == ' ' || str.charAt(index) == '\t';
+      return index >= 0
+          && str.charAt(index) == ' '
+          || str.charAt(index) == '\t';
     }
+  // @formatter:on
 
     boolean after(int index, String str) {
-      return index >= 0 && (str.charAt(index) == ' ' || str.charAt(index) == '\t');
+      return index >= 0
+          && (str.charAt(index) == ' ' || str.charAt(index) == '\t');
     }
   }
 

@@ -21,7 +21,8 @@ public class QuestionServiceImpl implements QuestionService {
 
   Map<String, Integer> chpaterMap = new HashMap<>(Map.of("expression", 2));
 
-  private int _convertChapterNameToNumber(String name) throws NoSuchElementException {
+  private int _convertChapterNameToNumber(String name)
+      throws NoSuchElementException {
     if (!chpaterMap.containsKey(name)) {
       throw new NoSuchElementException("Chapter not found: %s".formatted(name));
     }
@@ -44,13 +45,15 @@ public class QuestionServiceImpl implements QuestionService {
   }
 
   @Override
-  public QuestionEntity findOne(String chapterName, int mistakeId, int exampleId) {
+  public QuestionEntity findOne(String chapterName, int mistakeId,
+      int exampleId) {
     var chapterNumber = _convertChapterNameToNumber(chapterName);
     return findOne(chapterNumber, mistakeId, exampleId);
   }
 
   @Override
-  public QuestionEntity findOne(int chapterNumber, int mistakeId, int exampleId) {
+  public QuestionEntity findOne(int chapterNumber, int mistakeId,
+      int exampleId) {
     var id = "%d_%02d_%d".formatted(chapterNumber, mistakeId, exampleId);
     return findOne(id);
   }

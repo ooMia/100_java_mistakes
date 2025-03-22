@@ -10,7 +10,8 @@ import com.example.mistakes.service.QuestionService;
 public class _08_MixedLogicalOperators {
 
   _08_MixedLogicalOperators(@Autowired QuestionService service) {
-    var entities = QuestionEntityBuilder.of(Ex1.class, Ex2.class, Ex3.class, Ex4.class);
+    var entities = QuestionEntityBuilder.of(Ex1.class, Ex2.class, Ex3.class,
+        Ex4.class);
     service.addAll(entities);
   }
 
@@ -84,5 +85,4 @@ public class _08_MixedLogicalOperators {
       }
     }
   }
-
 }

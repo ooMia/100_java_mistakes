@@ -18,7 +18,6 @@ import com.example.mistakes.base.type.Identifiable;
 
 /**
  * ReadOnlyFsRepository
- *
  * <p>
  * Repository interface for read-only operations
  *
@@ -38,8 +37,10 @@ class ReadOnlyFsRepository<T extends Identifiable<ID> & FsMeta, ID>
   }
 
   @Override
-  public @NonNull <S extends T> Iterable<S> saveAll(@NonNull Iterable<S> entities) {
-    // use parallelStream() if entities came as a Collection and have many elements
+  public @NonNull <S extends T> Iterable<S> saveAll(
+      @NonNull Iterable<S> entities) {
+    // use parallelStream() if entities came as a Collection and have many
+    // elements
     entities.forEach(this::save);
     return entities;
   }
@@ -56,10 +57,8 @@ class ReadOnlyFsRepository<T extends Identifiable<ID> & FsMeta, ID>
 
   @Override
   public @NonNull Iterable<T> findAllById(@NonNull Iterable<ID> ids) {
-    return StreamSupport.stream(ids.spliterator(), true)
-        .map(id -> data.get(id))
-        .filter(Objects::nonNull)
-        .collect(Collectors.toList());
+    return StreamSupport.stream(ids.spliterator(), true).map(id -> data.get(id))
+        .filter(Objects::nonNull).collect(Collectors.toList());
   }
 
   public @NonNull Iterable<T> findAllByPattern(@NonNull String regex) {
@@ -72,7 +71,8 @@ class ReadOnlyFsRepository<T extends Identifiable<ID> & FsMeta, ID>
   @Override
   public boolean existsById(ID id) {
     // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'existsById'");
+    throw new UnsupportedOperationException(
+        "Unimplemented method 'existsById'");
   }
 
   @Override
@@ -84,7 +84,8 @@ class ReadOnlyFsRepository<T extends Identifiable<ID> & FsMeta, ID>
   @Override
   public void deleteById(ID id) {
     // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+    throw new UnsupportedOperationException(
+        "Unimplemented method 'deleteById'");
   }
 
   @Override
@@ -96,7 +97,8 @@ class ReadOnlyFsRepository<T extends Identifiable<ID> & FsMeta, ID>
   @Override
   public void deleteAllById(Iterable<? extends ID> ids) {
     // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'deleteAllById'");
+    throw new UnsupportedOperationException(
+        "Unimplemented method 'deleteAllById'");
   }
 
   @Override

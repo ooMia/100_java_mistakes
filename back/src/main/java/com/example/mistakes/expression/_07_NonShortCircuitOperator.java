@@ -62,18 +62,40 @@ public class _07_NonShortCircuitOperator {
     // @formatter:on
 
     boolean before(Object obj) {
-      return obj instanceof First && checkFirst((First) obj) |
-          obj instanceof Second && !(obj instanceof Exclude) ||
-          obj instanceof Third && checkThird((Third) obj);
+      return obj instanceof First
+          && checkFirst((First) obj) | obj instanceof Second
+          && !(obj instanceof Exclude)
+          || obj instanceof Third && checkThird((Third) obj);
     }
 
     boolean after(Object obj) {
       return switch (obj) { // Java 21
-        case First first -> checkFirst(first);
-        case Second second -> !(second instanceof Exclude);
-        case Third third -> checkThird(third);
-        case null, default -> false;
+      case First first -> checkFirst(first);
+      case Second second -> !(second instanceof Exclude);
+      case Third third -> checkThird(third);
+      case null, default -> false;
       };
+    }
+  }
+
+  static class Ex4 {
+    // refactor usage of non-short-circuit operator
+
+    // @formatter:off
+    boolean a = false, b = false;
+
+    boolean updateA() { return a = true; }
+    boolean updateB() { return b = true; }
+    // @formatter:on
+
+    boolean before() {
+      return updateA() & updateB();
+    }
+
+    boolean after() {
+      boolean isAUpdated = updateA();
+      boolean isBUpdated = updateB();
+      return isAUpdated && isBUpdated;
     }
   }
 }

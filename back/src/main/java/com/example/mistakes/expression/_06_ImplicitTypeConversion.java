@@ -38,8 +38,8 @@ public class _06_ImplicitTypeConversion {
     @SuppressWarnings("null")
     Integer before(int input) {
       return input > 20 ? 2 : input > 10 ? 1 : null;
-      // return Integer.valueOf(input > 20 ? 2 : (input > 10 ? Integer.valueOf(1) :
-      // null).intValue());
+      // return Integer.valueOf(input > 20 ? 2 : (input > 10 ?
+      // Integer.valueOf(1) : null).intValue());
     }
 
     Integer after(int input) {

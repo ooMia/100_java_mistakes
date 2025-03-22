@@ -12,6 +12,10 @@
     "org.springframework.test.web.servlet.result.MockMvcResultMatchers.*"
   ],
   "java.debug.settings.hotCodeReplace": "manual",
-  "java.format.settings.url": "auto",
-  "java.format.enabled": true
+  "java.format.settings.url": ".vscode/java-formatter.xml",
+  "java.format.enabled": true,
+  "[java]": {
+    "editor.tabSize": 2,
+    "editor.detectIndentation": false
+  }
 }

@@ -16,6 +16,7 @@ public class _04_MultilineStringLiteral {
 
   static class Ex1 {
     String before(String userName) {
+      // @formatter:off
       String greetingPage = "<html>\n"
           + "  <head><title>Welcome</title></head>\n"
           + "  <body>\n"
@@ -24,6 +25,7 @@ public class _04_MultilineStringLiteral {
           + "  <p>Welcome to our web-site</p>\n"
           + "  </body>\n"
           + "</html>\n".replace("$user$", userName);
+      // @formatter:on
       return greetingPage;
     }
 
@@ -37,8 +39,7 @@ public class _04_MultilineStringLiteral {
             <p>Welcome to our web-site</p>
             </body>
           </html>
-          """
-          .replace("$user$", userName);
+          """.replace("$user$", userName);
       return greetingPage;
     }
   }
