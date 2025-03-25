@@ -1,8 +1,8 @@
 package com.example.mistakes;
 
-import com.example.mistakes.api.questions.QuestionEntity;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import com.example.mistakes.api.questions.QuestionEntity;
 
 public class QuestionEntityBuilder<T> {
   public QuestionEntity build(Class<T> cls) {
@@ -14,6 +14,6 @@ public class QuestionEntityBuilder<T> {
   }
 
   public static Iterable<QuestionEntity> of(Class<?>... cls) {
-    return List.of(cls).stream().map(QuestionEntityBuilder::of).collect(Collectors.toList());
+    return List.of(cls).stream().map(QuestionEntityBuilder::of).toList();
   }
 }

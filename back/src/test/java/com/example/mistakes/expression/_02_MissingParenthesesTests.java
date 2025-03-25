@@ -7,12 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-@RequiredArgsConstructor
+import org.junit.jupiter.api.Test;
+
 class _02_MissingParenthesesTests {
 
   @Test
@@ -33,28 +30,27 @@ class _02_MissingParenthesesTests {
     assertThrows(NegativeArraySizeException.class, () -> target.before("abc", -1));
     assertDoesNotThrow(() -> target.after("abc", -1));
 
-    assertTrue(target.after("abc", 0).capacity() == 3);
+    assertEquals(3, target.after("abc", 0).capacity());
   }
 
   @Test
   void testEx3() {
     var target = new _02_MissingParentheses.Ex3();
+    var expectWhenNull = "Value: (unknown)";
 
-    var whenNull = "Value: (unknown)";
-    assertNotEquals(target.before(null), whenNull);
-    assertEquals(target.after(null), whenNull);
+    assertNotEquals(expectWhenNull, target.before(null));
+    assertEquals(expectWhenNull, target.after(null), expectWhenNull);
   }
 
   @Test
   void testEx4() {
     var target = new _02_MissingParentheses.Ex4();
-
     var init = List.of("a", "b", "c");
 
-    assertEquals(target.before(init, null), 1);
-    assertEquals(target.before(init, "d"), 1);
-    
-    assertEquals(target.after(init, null), 3);
-    assertEquals(target.after(init, "d"), 4);
+    assertEquals(1, target.before(init, null));
+    assertEquals(1, target.before(init, "d"));
+
+    assertEquals(3, target.after(init, null));
+    assertEquals(4, target.after(init, "d"));
   }
 }
