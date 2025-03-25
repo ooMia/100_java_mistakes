@@ -85,21 +85,22 @@ class _11_IgnoredReturnValueTests {
   void testEx7() {
     var target = new _11_IgnoredReturnValue.Ex7();
 
-    byte[] content = "Hello, World!".getBytes();
-    var bufferStream1 = new BufferedInputStream(
-        new ByteArrayInputStream(content));
-    var bufferStream2 = new BufferedInputStream(
-        new ByteArrayInputStream(content));
-        
-    try {
-      assertEquals("Hello, World!",
-          new String(target.before(bufferStream1)).trim());
-      bufferStream1.close();
-      assertThrows(IOException.class, () -> target.before(bufferStream1));
+    String str = "Hello, World!";
+    byte[] content = str.getBytes();
 
-      assertEquals("Hello, World!", new String(target.after(bufferStream2)));
-      bufferStream2.close();
-      assertEquals("", new String(target.after(bufferStream2)));
+    try {
+      {
+        var stream = new BufferedInputStream(new ByteArrayInputStream(content));
+        assertEquals(str, new String(target.before(stream)).trim());
+        stream.close();
+        assertThrows(IOException.class, () -> target.before(stream));
+      }
+      {
+        var stream = new BufferedInputStream(new ByteArrayInputStream(content));
+        assertEquals(str, new String(target.after(stream)));
+        stream.close();
+        assertEquals("", new String(target.after(stream)));
+      }
     } catch (IOException _) {
       throw new AssertionError("IOException occurred");
     }
