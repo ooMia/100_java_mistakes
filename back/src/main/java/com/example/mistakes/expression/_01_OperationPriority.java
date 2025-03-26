@@ -1,15 +1,17 @@
 package com.example.mistakes.expression;
 
-import com.example.mistakes.QuestionEntityBuilder;
-import com.example.mistakes.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.example.mistakes.QuestionEntityBuilder;
+import com.example.mistakes.service.QuestionService;
 
 @Component
 public class _01_OperationPriority {
 
   _01_OperationPriority(@Autowired QuestionService service) {
-    var entities = QuestionEntityBuilder.of(Ex1.class, Ex2.class, Ex3.class, Ex4.class);
+    var entities = QuestionEntityBuilder.of(Ex1.class, Ex2.class, Ex3.class,
+        Ex4.class);
     service.addAll(entities);
   }
 

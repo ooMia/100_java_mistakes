@@ -1,23 +1,28 @@
 package com.example.mistakes.service;
 
-import com.example.mistakes.api.questions.QuestionEntity;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.mistakes.api.questions.QuestionEntity;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
 
-  @Autowired private final ReadOnlyFsRepository<QuestionEntity, String> repository;
+  @Autowired
+  private final ReadOnlyFsRepository<QuestionEntity, String> repository;
 
   Map<String, Integer> chpaterMap = new HashMap<>(Map.of("expression", 2));
 
-  private Integer _convertChapterNameToNumber(String name) throws NoSuchElementException {
+  private int _convertChapterNameToNumber(String name)
+      throws NoSuchElementException {
     if (!chpaterMap.containsKey(name)) {
       throw new NoSuchElementException("Chapter not found: %s".formatted(name));
     }
@@ -40,13 +45,15 @@ public class QuestionServiceImpl implements QuestionService {
   }
 
   @Override
-  public QuestionEntity findOne(String chapterName, Integer mistakeId, Integer exampleId) {
+  public QuestionEntity findOne(String chapterName, int mistakeId,
+      int exampleId) {
     var chapterNumber = _convertChapterNameToNumber(chapterName);
     return findOne(chapterNumber, mistakeId, exampleId);
   }
 
   @Override
-  public QuestionEntity findOne(Integer chapterNumber, Integer mistakeId, Integer exampleId) {
+  public QuestionEntity findOne(int chapterNumber, int mistakeId,
+      int exampleId) {
     var id = "%d_%02d_%d".formatted(chapterNumber, mistakeId, exampleId);
     return findOne(id);
   }

@@ -1,9 +1,5 @@
 package com.example.mistakes.api.questions;
 
-import com.example.mistakes.base.template.ResponseManyDTO;
-import com.example.mistakes.base.type.FsMeta;
-import com.example.mistakes.base.type.Identifiable;
-import com.example.mistakes.base.type.Message;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,6 +10,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.example.mistakes.base.template.ResponseManyDTO;
+import com.example.mistakes.base.type.FsMeta;
+import com.example.mistakes.base.type.Identifiable;
+import com.example.mistakes.base.type.Message;
+
 import lombok.extern.log4j.Log4j2;
 
 final class ResClassQuestion extends ResponseManyDTO<QuestionEntity> {
@@ -24,11 +26,13 @@ final class ResClassQuestion extends ResponseManyDTO<QuestionEntity> {
 
 // TODO: refactor to class
 @Log4j2
-public record QuestionEntity(String message) implements Message, Identifiable<String>, FsMeta {
+public record QuestionEntity(String message)
+    implements Message, Identifiable<String>, FsMeta {
 
+  private static Map<String, Integer> chapterMap = new HashMap<>(
+      Map.of("expression", 2));
 
-  private static Map<String, Integer> chapterMap = new HashMap<>(Map.of("expression", 2));
-  public Integer getChapter() {
+  public int getChapter() {
     var topLevelPackage = message.split("\\.")[3];
     return chapterMap.getOrDefault(topLevelPackage, 0);
   }
@@ -45,7 +49,8 @@ public record QuestionEntity(String message) implements Message, Identifiable<St
       return "%s_%s_%s".formatted(chapter, mistakeId, index);
     }
 
-    // legacy: return 1 when got `com/example/mistakes/expression/_01_OperationPriority.java`
+    // legacy: return 1 when got
+    // `com/example/mistakes/expression/_01_OperationPriority.java`
     String filtered = message.replaceAll("[^0-9]", "");
     if (filtered.isEmpty()) {
       return String.valueOf(message.hashCode());
@@ -54,7 +59,8 @@ public record QuestionEntity(String message) implements Message, Identifiable<St
   }
 
   public Path getPath() {
-    // return = src/main/java/com/example/mistakes/expression/_01_OperationPriority.java
+    // return =
+    // src/main/java/com/example/mistakes/expression/_01_OperationPriority.java
     // when message = com.example.mistakes.expression._01_OperationPriority.Ex2
 
     String pathPrefix = "src/main/java";
@@ -68,7 +74,8 @@ public record QuestionEntity(String message) implements Message, Identifiable<St
       String group = matcher.group(1);
       path = group.replace(".", "/") + fileExtension;
     } else {
-      throw new IllegalArgumentException("Matcher not found: message=" + message);
+      throw new IllegalArgumentException(
+          "Matcher not found: message=" + message);
     }
     return Paths.get(pathPrefix, path);
   }
@@ -90,24 +97,26 @@ public record QuestionEntity(String message) implements Message, Identifiable<St
   }
 
   private class Code {
-    static String readMethodCode(Path filePath, String className, String methodName) {
+    static String readMethodCode(Path filePath, String className,
+        String methodName) {
       try {
         return read(filePath, className, methodName);
       } catch (Exception e) {
-        return "NoSuchFileException path=%s methodName=%s"
+        return "NoSuchFileException path=%s className=%s methodName=%s"
             .formatted(filePath, className, methodName);
       }
     }
 
-    private static String read(Path filePath, String className, String methodName)
-        throws IOException {
+    private static String read(Path filePath, String className,
+        String methodName) throws IOException {
 
       List<String> classCode = findClassCode(filePath, className);
 
       StringBuilder methodCode = new StringBuilder();
       boolean methodFound = false;
       for (String line : classCode) {
-        if (line.contains(" " + methodName + "(")) { // Simple check for method signature
+        if (line.contains(" " + methodName + "(")) {
+          // Simple check for method signature
           methodFound = true;
           methodCode.append(line).append("\n");
         } else if (methodFound && line.contains("}")) {
@@ -120,13 +129,15 @@ public record QuestionEntity(String message) implements Message, Identifiable<St
       return methodCode.toString();
     }
 
-    private static List<String> findClassCode(Path filePath, String className) throws IOException {
+    private static List<String> findClassCode(Path filePath, String className)
+        throws IOException {
       List<String> classCode = new ArrayList<>();
 
       boolean classFound = false;
       int braceCount = 0;
       for (String line : Files.readAllLines(filePath)) {
-        if (line.contains("class " + className)) { // Simple check for class signature
+        if (line.contains("class " + className)) {
+          // Simple check for class signature
           classFound = true;
           classCode.add(line);
           braceCount++;
@@ -138,7 +149,8 @@ public record QuestionEntity(String message) implements Message, Identifiable<St
           if (line.contains("}")) {
             braceCount--;
             if (braceCount == 0) {
-              break; // Stop reading after the closing brace of the class
+              // Stop reading after the closing brace of the class
+              break;
             }
           }
         }

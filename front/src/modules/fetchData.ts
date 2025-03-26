@@ -1,7 +1,7 @@
 interface Response {
   message?: string;
   result?: {
-    id: number;
+    id: string;
     message: string;
     before: string;
     after: string;
@@ -14,7 +14,7 @@ async function _fetchWithRetry(
   url: string,
   retriesLeft: number,
   maxRetries: number = 3,
-  delayMs: number = 10000
+  delayMs: number = 10000,
 ) {
   try {
     const response = await fetch(url);
@@ -35,13 +35,13 @@ export async function fetchDataWithRetry(
   apiPath: string,
   baseUrl: string = "http://localhost:8080",
   maxRetries: number = 3,
-  delayMs: number = 10000
+  delayMs: number = 10000,
 ): Promise<{ data: Response; message: string }> {
   let data = { message: "No Data" };
   let message = "No Data";
   try {
     const url = `${baseUrl}/${apiPath}`;
-    console.log(`Fetching data from ${url}`);
+    // console.log(`fetchDataWithRetry(): ${url}`);
     data = await _fetchWithRetry(url, maxRetries, delayMs);
     message = data.message || "Data Loaded Successfully";
   } catch (error) {

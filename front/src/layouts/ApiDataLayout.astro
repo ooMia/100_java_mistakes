@@ -21,10 +21,7 @@ let {
   baseUrl = "http://localhost:8080",
 } = Astro.props;
 
-console.log(apiPath);
 const { data } = await fetchDataWithRetry(apiPath);
-// TODO: layout should applied for each result, not only the first one
-const result = data.result ? data.result[0] : [];
 const { message, before, after, id, path } = data.result![0];
 
 // TODO: use search with regex

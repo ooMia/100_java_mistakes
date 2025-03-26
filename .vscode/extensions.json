@@ -3,7 +3,7 @@
     "astro-build.astro-vscode",
     "vscjava.vscode-java-pack",
     "vmware.vscode-boot-dev-pack",
-    "josevseb.google-java-format-for-vs-code"
+    "sonarsource.sonarlint-vscode"
   ],
   "unwantedRecommendations": []
 }
