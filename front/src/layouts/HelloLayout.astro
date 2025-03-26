@@ -23,6 +23,10 @@ const {
 // console.log(apiPath);
 const { data } = await fetchDataWithRetry(apiPath);
 let { message } = data;
+
+import { Image } from "astro:assets";
+import back from "public/back.jpeg";
+import front from "public/front.jpeg";
 ---
 
 <div class='container'>
@@ -35,7 +39,10 @@ let { message } = data;
     <p>{description}</p>
     <slot name='info' />
   </div>
-
+  <div class='info-box'>
+    <Image src={front} alt='100 Java Mistakes' width='250' />
+    <Image src={back} alt='100 Java Mistakes' width='250' />
+  </div>
   <CodeCard
     title='API Response'
     summary={`GET /${apiPath}`}
