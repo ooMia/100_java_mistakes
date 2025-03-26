@@ -20,7 +20,7 @@ const {
   baseUrl = "http://localhost:8080",
 } = Astro.props;
 
-console.log(apiPath);
+// console.log(apiPath);
 const { data } = await fetchDataWithRetry(apiPath);
 let { message } = data;
 ---
