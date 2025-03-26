@@ -60,6 +60,7 @@ jobs:
         uses: withastro/action@v3
         with:
           path: front
+          node-version: 23
         # with:
         # path: . # The root location of your Astro project inside the repository. (optional)
         # node-version: 20 # The specific version of Node that should be used to build your site. Defaults to 20. (optional)
